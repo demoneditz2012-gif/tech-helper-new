@@ -1,0 +1,2014 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=3.0">
+<meta name="description" content="Step-by-step tech help for older adults. No internet needed.">
+<meta name="theme-color" content="#2c5f2e">
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="default">
+<title>Grandparent Tech Helper</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;600;700&family=Source+Sans+3:wght@400;600;700&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --cream: #fdf6e3;
+    --cream-dark: #f5e9c8;
+    --green: #2c5f2e;
+    --green-light: #4a8c4d;
+    --green-pale: #e8f5e9;
+    --iphone-color: #1565c0;
+    --iphone-pale: #e3f2fd;
+    --android-color: #2e7d32;
+    --android-pale: #e8f5e9;
+    --windows-color: #1976d2;
+    --windows-pale: #e3f0fd;
+    --mac-color: #6a1b9a;
+    --mac-pale: #f3e5f5;
+    --text-dark: #1a1a1a;
+    --text-mid: #3a3a3a;
+    --shadow: 0 4px 20px rgba(0,0,0,0.12);
+    --radius: 16px;
+    --font-body: 'Source Sans 3', Georgia, serif;
+    --font-head: 'Lora', Georgia, serif;
+  }
+
+  * { box-sizing: border-box; margin: 0; padding: 0; }
+
+  body {
+    font-family: var(--font-body);
+    background: var(--cream);
+    color: var(--text-dark);
+    min-height: 100vh;
+    font-size: 19px;
+    line-height: 1.6;
+  }
+
+  /* ── HEADER ── */
+  #app-header {
+    background: var(--green);
+    color: white;
+    padding: 20px 24px 18px;
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    position: sticky;
+    top: 0;
+    z-index: 100;
+    box-shadow: 0 3px 12px rgba(0,0,0,0.25);
+  }
+  #back-btn {
+    display: none;
+    background: rgba(255,255,255,0.2);
+    border: 2px solid rgba(255,255,255,0.5);
+    color: white;
+    border-radius: 10px;
+    padding: 8px 18px;
+    font-size: 18px;
+    font-family: var(--font-body);
+    font-weight: 600;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: background 0.15s;
+  }
+  #back-btn:hover { background: rgba(255,255,255,0.3); }
+  #header-title {
+    flex: 1;
+  }
+  #header-title h1 {
+    font-family: var(--font-head);
+    font-size: clamp(20px, 4vw, 28px);
+    font-weight: 700;
+    line-height: 1.2;
+  }
+  #header-title p {
+    font-size: 15px;
+    opacity: 0.85;
+    margin-top: 2px;
+  }
+  #header-icon {
+    font-size: 36px;
+    flex-shrink: 0;
+  }
+
+  /* ── SCREENS ── */
+  .screen { display: none; padding: 28px 20px 48px; max-width: 780px; margin: 0 auto; }
+  .screen.active { display: block; }
+
+  /* ── HOME ── */
+  #home-intro {
+    background: white;
+    border: 3px solid var(--cream-dark);
+    border-radius: var(--radius);
+    padding: 24px 28px;
+    margin-bottom: 32px;
+    text-align: center;
+  }
+  #home-intro h2 {
+    font-family: var(--font-head);
+    font-size: clamp(22px, 5vw, 30px);
+    color: var(--green);
+    margin-bottom: 10px;
+  }
+  #home-intro p {
+    font-size: 20px;
+    color: var(--text-mid);
+    line-height: 1.7;
+  }
+
+  .section-label {
+    font-family: var(--font-head);
+    font-size: 15px;
+    font-weight: 700;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--text-mid);
+    margin-bottom: 16px;
+    padding-left: 4px;
+    opacity: 0.7;
+  }
+
+  /* ── DEVICE CARDS ── */
+  .device-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+    gap: 18px;
+    margin-bottom: 40px;
+  }
+
+  .device-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 28px 24px;
+    cursor: pointer;
+    border: 3px solid transparent;
+    box-shadow: var(--shadow);
+    transition: transform 0.15s, box-shadow 0.15s, border-color 0.15s;
+    display: flex;
+    align-items: center;
+    gap: 20px;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .device-card:hover, .device-card:active {
+    transform: translateY(-3px);
+    box-shadow: 0 8px 28px rgba(0,0,0,0.18);
+  }
+  .device-card[data-device="iphone"] { border-color: var(--iphone-color); }
+  .device-card[data-device="android"] { border-color: var(--android-color); }
+  .device-card[data-device="windows"] { border-color: var(--windows-color); }
+  .device-card[data-device="mac"] { border-color: var(--mac-color); }
+
+  .device-icon {
+    font-size: 52px;
+    flex-shrink: 0;
+    width: 68px;
+    text-align: center;
+  }
+  .device-info h3 {
+    font-family: var(--font-head);
+    font-size: 24px;
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 4px;
+  }
+  .device-info p {
+    font-size: 16px;
+    color: #666;
+    line-height: 1.4;
+  }
+  .device-arrow {
+    margin-left: auto;
+    font-size: 26px;
+    color: #bbb;
+    flex-shrink: 0;
+  }
+
+  /* ── TOPIC LIST ── */
+  #topic-screen .device-header {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    background: white;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+  }
+  #topic-device-icon { font-size: 44px; }
+  #topic-device-name {
+    font-family: var(--font-head);
+    font-size: 28px;
+    font-weight: 700;
+  }
+  #topic-device-subtitle { font-size: 16px; color: #666; }
+
+  .topic-list { display: flex; flex-direction: column; gap: 14px; }
+
+  .topic-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 18px;
+    box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+    border-left: 6px solid transparent;
+    transition: transform 0.12s, box-shadow 0.12s;
+    -webkit-tap-highlight-color: transparent;
+  }
+  .topic-card:hover, .topic-card:active {
+    transform: translateX(4px);
+    box-shadow: 0 4px 18px rgba(0,0,0,0.14);
+  }
+  .topic-emoji { font-size: 34px; flex-shrink: 0; width: 44px; text-align: center; }
+  .topic-text h4 {
+    font-family: var(--font-head);
+    font-size: 21px;
+    font-weight: 600;
+    margin-bottom: 2px;
+  }
+  .topic-text p { font-size: 16px; color: #666; }
+  .topic-arrow { margin-left: auto; font-size: 22px; color: #ccc; flex-shrink: 0; }
+
+  /* ── GUIDE SCREEN ── */
+  #guide-screen .guide-header {
+    background: white;
+    border-radius: var(--radius);
+    padding: 24px 26px;
+    margin-bottom: 28px;
+    box-shadow: var(--shadow);
+  }
+  #guide-emoji { font-size: 48px; margin-bottom: 10px; }
+  #guide-title {
+    font-family: var(--font-head);
+    font-size: clamp(22px, 5vw, 32px);
+    font-weight: 700;
+    color: var(--text-dark);
+    margin-bottom: 6px;
+  }
+  #guide-subtitle { font-size: 17px; color: #666; }
+
+  .steps-container { display: flex; flex-direction: column; gap: 16px; }
+
+  .step-card {
+    background: white;
+    border-radius: var(--radius);
+    padding: 22px 24px;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+    box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    animation: fadeSlideIn 0.3s ease both;
+  }
+  .step-card:nth-child(1) { animation-delay: 0.05s; }
+  .step-card:nth-child(2) { animation-delay: 0.10s; }
+  .step-card:nth-child(3) { animation-delay: 0.15s; }
+  .step-card:nth-child(4) { animation-delay: 0.20s; }
+  .step-card:nth-child(5) { animation-delay: 0.25s; }
+  .step-card:nth-child(6) { animation-delay: 0.30s; }
+  .step-card:nth-child(7) { animation-delay: 0.35s; }
+  .step-card:nth-child(8) { animation-delay: 0.40s; }
+
+  @keyframes fadeSlideIn {
+    from { opacity: 0; transform: translateY(12px); }
+    to   { opacity: 1; transform: translateY(0); }
+  }
+
+  .step-num {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 22px;
+    font-weight: 700;
+    font-family: var(--font-head);
+    flex-shrink: 0;
+    color: white;
+  }
+  .step-body h5 {
+    font-family: var(--font-head);
+    font-size: 20px;
+    font-weight: 600;
+    margin-bottom: 4px;
+    color: var(--text-dark);
+  }
+  .step-body p {
+    font-size: 18px;
+    color: var(--text-mid);
+    line-height: 1.6;
+  }
+  .step-body .tip {
+    margin-top: 10px;
+    background: #fff8e1;
+    border-left: 4px solid #f9a825;
+    border-radius: 6px;
+    padding: 10px 14px;
+    font-size: 16px;
+    color: #5a4000;
+  }
+  .step-body .tip::before { content: "💡 Tip: "; font-weight: 700; }
+
+  /* done banner */
+  .done-banner {
+    margin-top: 24px;
+    background: #e8f5e9;
+    border: 2px solid #66bb6a;
+    border-radius: var(--radius);
+    padding: 20px 24px;
+    text-align: center;
+    font-size: 20px;
+    color: #1b5e20;
+    font-weight: 600;
+    font-family: var(--font-head);
+    animation: fadeSlideIn 0.4s ease both;
+    animation-delay: 0.5s;
+    opacity: 0;
+    animation-fill-mode: forwards;
+  }
+
+  /* ── COLOR THEMES PER DEVICE ── */
+  .theme-iphone .step-num { background: var(--iphone-color); }
+  .theme-iphone .topic-card { border-left-color: var(--iphone-color); }
+  .theme-iphone #topic-device-name { color: var(--iphone-color); }
+
+  .theme-android .step-num { background: var(--android-color); }
+  .theme-android .topic-card { border-left-color: var(--android-color); }
+  .theme-android #topic-device-name { color: var(--android-color); }
+
+  .theme-windows .step-num { background: var(--windows-color); }
+  .theme-windows .topic-card { border-left-color: var(--windows-color); }
+  .theme-windows #topic-device-name { color: var(--windows-color); }
+
+  .theme-mac .step-num { background: var(--mac-color); }
+  .theme-mac .topic-card { border-left-color: var(--mac-color); }
+  .theme-mac #topic-device-name { color: var(--mac-color); }
+
+  /* ── FONT SIZE TOGGLE ── */
+  #font-controls {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: white;
+    border-radius: 50px;
+    padding: 10px 18px;
+    box-shadow: var(--shadow);
+    width: fit-content;
+    margin: 0 auto 32px;
+  }
+  #font-controls span { font-size: 16px; color: #666; font-weight: 600; }
+  .font-btn {
+    background: var(--cream-dark);
+    border: 2px solid #ccc;
+    border-radius: 50%;
+    width: 44px; height: 44px;
+    font-size: 22px;
+    cursor: pointer;
+    display: flex; align-items: center; justify-content: center;
+    font-weight: 700;
+    transition: background 0.12s;
+    color: var(--text-dark);
+  }
+  .font-btn:hover { background: #e0d5b5; }
+
+  /* text size classes */
+  body.text-lg { font-size: 22px; }
+  body.text-xl { font-size: 26px; }
+  body.text-lg .topic-text h4,
+  body.text-xl .topic-text h4 { font-size: 24px; }
+  body.text-lg .step-body p,
+  body.text-xl .step-body p { font-size: 20px; }
+
+  /* ── RESPONSIVE ── */
+  @media (max-width: 500px) {
+    .device-grid { grid-template-columns: 1fr; }
+    .step-card { flex-direction: column; gap: 12px; }
+    .step-num { width: 42px; height: 42px; font-size: 20px; }
+  }
+
+  /* ── STEP VISUALS ── */
+  .step-visual {
+    margin-top: 14px;
+    background: #f8f9ff;
+    border: 1.5px solid #e0e8ff;
+    border-radius: 12px;
+    padding: 14px 16px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    gap: 0;
+  }
+  .step-visual svg { max-width: 100%; height: auto; display: block; }
+  .vis-label {
+    margin-top: 8px;
+    font-size: 14px;
+    color: #555;
+    text-align: center;
+    font-style: italic;
+    line-height: 1.4;
+  }
+  @keyframes vis-pulse {
+    0%,100% { opacity:1; } 50% { opacity:0.45; }
+  }
+  @keyframes vis-bounce {
+    0%,100% { transform: translateY(0); } 50% { transform: translateY(-4px); }
+  }
+  .vis-pulse { animation: vis-pulse 1.6s ease-in-out infinite; }
+  .vis-bounce { animation: vis-bounce 1.2s ease-in-out infinite; }
+
+  /* scrollbar styling */
+  ::-webkit-scrollbar { width: 8px; }
+  ::-webkit-scrollbar-track { background: var(--cream); }
+  ::-webkit-scrollbar-thumb { background: #bbb; border-radius: 4px; }
+
+  /* ── VISUAL ILLUSTRATIONS ── */
+  .step-visual {
+    margin-top: 14px;
+    background: #f0f4ff;
+    border: 2px solid #d0d8f0;
+    border-radius: 12px;
+    padding: 16px 12px 10px;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+  }
+  .step-visual svg { max-width: 100%; height: auto; display: block; }
+  .step-card { flex-wrap: wrap; }
+  .step-body { flex: 1; min-width: 0; }
+  .vis-label {
+    font-size: 11px;
+    font-weight: 700;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #7a84a8;
+    text-align: center;
+    margin-top: 6px;
+  }
+  @keyframes visPulse {
+    0%,100% { opacity: 1; }
+    50% { opacity: 0.3; }
+  }
+  .vis-pulse { animation: visPulse 1.8s ease-in-out infinite; }
+  @keyframes visBounce {
+    0%,100% { transform: translateY(0); }
+    50% { transform: translateY(-6px); }
+  }
+  .vis-bounce { animation: visBounce 1.4s ease-in-out infinite; }
+  @keyframes visSlide {
+    0% { transform: translateX(-6px); opacity:0.4; }
+    50% { transform: translateX(6px); opacity:1; }
+    100% { transform: translateX(-6px); opacity:0.4; }
+  }
+  .vis-slide { animation: visSlide 2s ease-in-out infinite; }
+  @keyframes visRing {
+    0%,100% { transform: scale(1); opacity:1; }
+    50% { transform: scale(1.12); opacity:0.6; }
+  }
+  .vis-ring { animation: visRing 1.2s ease-in-out infinite; }
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<header id="app-header">
+  <button id="back-btn" onclick="goBack()" aria-label="Go back">← Back</button>
+  <div id="header-title">
+    <h1 id="header-h1">Grandparent Tech Helper</h1>
+    <p id="header-sub">Simple guides for everyday technology</p>
+  </div>
+  <div id="header-icon">📱</div>
+</header>
+
+<!-- HOME SCREEN -->
+<div id="home-screen" class="screen active">
+  <div id="home-intro">
+    <h2>Welcome! 👋</h2>
+    <p>Choose your device below to find easy, step-by-step help. No internet needed — everything works right here!</p>
+  </div>
+
+  <div id="font-controls" aria-label="Text size controls">
+    <span>Text size:</span>
+    <button class="font-btn" onclick="shrinkText()" aria-label="Make text smaller">A−</button>
+    <button class="font-btn" onclick="growText()" aria-label="Make text larger">A+</button>
+  </div>
+
+  <div class="section-label">Choose your device</div>
+  <div class="device-grid">
+    <div class="device-card" data-device="iphone" onclick="showTopics('iphone')" role="button" tabindex="0">
+      <div class="device-icon">🍎</div>
+      <div class="device-info">
+        <h3>iPhone</h3>
+        <p>Apple iPhone &amp; iPad guides</p>
+      </div>
+      <div class="device-arrow">›</div>
+    </div>
+    <div class="device-card" data-device="android" onclick="showTopics('android')" role="button" tabindex="0">
+      <div class="device-icon">🤖</div>
+      <div class="device-info">
+        <h3>Android</h3>
+        <p>Samsung, Google &amp; other phones</p>
+      </div>
+      <div class="device-arrow">›</div>
+    </div>
+    <div class="device-card" data-device="windows" onclick="showTopics('windows')" role="button" tabindex="0">
+      <div class="device-icon">🖥️</div>
+      <div class="device-info">
+        <h3>Windows PC</h3>
+        <p>Laptops &amp; desktop computers</p>
+      </div>
+      <div class="device-arrow">›</div>
+    </div>
+    <div class="device-card" data-device="mac" onclick="showTopics('mac')" role="button" tabindex="0">
+      <div class="device-icon">💻</div>
+      <div class="device-info">
+        <h3>Mac</h3>
+        <p>Apple MacBook &amp; iMac</p>
+      </div>
+      <div class="device-arrow">›</div>
+    </div>
+  </div>
+
+  <div class="section-label">Good to know</div>
+  <div style="background:white;border-radius:var(--radius);padding:22px 26px;box-shadow:var(--shadow);font-size:18px;line-height:1.8;color:var(--text-mid)">
+    ✅ &nbsp;<strong>No internet needed</strong> — works anywhere<br>
+    ✅ &nbsp;<strong>No account or password</strong> required<br>
+    ✅ &nbsp;<strong>Tap any guide</strong> to see step-by-step instructions<br>
+    ✅ &nbsp;Use <strong>A+ / A−</strong> above to make text bigger or smaller
+  </div>
+</div>
+
+<!-- TOPIC SCREEN -->
+<div id="topic-screen" class="screen">
+  <div class="device-header">
+    <div id="topic-device-icon">🍎</div>
+    <div>
+      <div id="topic-device-name">iPhone</div>
+      <div id="topic-device-subtitle">Choose a topic below</div>
+    </div>
+  </div>
+  <div class="topic-list" id="topic-list"></div>
+</div>
+
+<!-- GUIDE SCREEN -->
+<div id="guide-screen" class="screen">
+  <div class="guide-header">
+    <div id="guide-emoji">📸</div>
+    <div id="guide-title">Take a Screenshot</div>
+    <div id="guide-subtitle">iPhone</div>
+  </div>
+  <div class="steps-container" id="steps-container"></div>
+</div>
+
+<script>
+/* ══════════════════════════════════════
+   DATA — All guides live here
+══════════════════════════════════════ */
+const DEVICES = {
+  iphone: {
+    name: 'iPhone',
+    icon: '🍎',
+    subtitle: 'Apple iPhone & iPad',
+    theme: 'theme-iphone',
+    topics: [
+      {
+        emoji: '📸', title: 'Take a Screenshot',
+        desc: 'Capture what\'s on your screen',
+        steps: [
+          { title: 'Find the right buttons', text: 'On iPhone X and newer (no Home button): find the Side button on the right edge and the Volume Up button on the left.' },
+          { title: 'Press both buttons together', text: 'At the same time, quickly press the Side button and the Volume Up button. Press them together and release quickly — don\'t hold them down.' },
+          { title: 'Watch for the flash', text: 'Your screen will flash white and you\'ll hear a camera click sound. A small preview appears in the bottom-left corner.' },
+          { title: 'Tap to see it (optional)', text: 'Tap that small preview to open the screenshot. Or just wait — it will disappear on its own and save automatically.', tip: 'Your screenshot is saved in the Photos app, in an album called "Screenshots."' },
+          { title: 'Older iPhones with a Home button', text: 'Press the Side button (or Top button) and the round Home button at the same time, then release quickly.' }
+        ]
+      },
+      {
+        emoji: '🖼️', title: 'Send a Photo in a Text Message',
+        desc: 'Share a picture with someone',
+        steps: [
+          { title: 'Open Messages', text: 'Tap the green Messages app on your home screen. It looks like a speech bubble.' },
+          { title: 'Open the conversation', text: 'Tap the name of the person you want to send the photo to.' },
+          { title: 'Find the photo button', text: 'Look for the small camera or photo icon to the left of the text box at the bottom of the screen. Tap the "+" or photo icon.' },
+          { title: 'Choose "Photo Library"', text: 'A menu will appear. Tap "Photo Library" or "Photos" to see your saved pictures.' },
+          { title: 'Select your photo', text: 'Browse and tap the photo you want to send. It will have a blue checkmark on it.' },
+          { title: 'Send it', text: 'Tap the blue arrow (send button) to send the photo. The photo will appear in the conversation.', tip: 'You can also tap the camera icon to take a new photo right then and send it.' }
+        ]
+      },
+      {
+        emoji: '📶', title: 'Connect to Wi-Fi',
+        desc: 'Join a wireless internet network',
+        steps: [
+          { title: 'Open Settings', text: 'Tap the grey gear icon called "Settings" on your home screen.' },
+          { title: 'Tap Wi-Fi', text: 'Near the top of Settings, tap "Wi-Fi". Make sure the switch next to Wi-Fi is green (turned on).' },
+          { title: 'Find your network', text: 'A list of nearby Wi-Fi networks will appear. Find the name of your home network (your internet provider or the name you chose).' },
+          { title: 'Tap your network name', text: 'Tap on your network\'s name in the list.' },
+          { title: 'Enter the password', text: 'A box will appear asking for the password. Type in your Wi-Fi password carefully. Passwords are case-sensitive (capital letters matter!)', tip: 'Your Wi-Fi password is often on a sticker on your router (the small box that provides your internet).' },
+          { title: 'Tap Join', text: 'Tap the blue "Join" button. If the password was correct, you\'ll see a checkmark next to the network name and a Wi-Fi symbol at the top of your screen.' }
+        ]
+      },
+      {
+        emoji: '🔊', title: 'Adjust the Volume',
+        desc: 'Make sounds louder or quieter',
+        steps: [
+          { title: 'Find the volume buttons', text: 'On the left side of your iPhone, there are two buttons stacked on top of each other. The top one (closer to the top of the phone) makes sounds louder. The bottom one makes sounds quieter.' },
+          { title: 'Press to adjust', text: 'Press the top Volume Up button to make it louder. Press the bottom Volume Down button to make it quieter. A volume slider appears on screen so you can see the level.' },
+          { title: 'Adjust media volume separately', text: 'There are two kinds of volume: the ringer (for calls and notifications) and media (music, videos). The volume buttons change whichever is currently active.' },
+          { title: 'Mute your phone quickly', text: 'The small switch above the volume buttons (it has an orange dot when ON) is the mute switch. Flip it toward the back of the phone to silence all sounds.', tip: 'If music or a video is too loud, press the volume buttons while the media is playing to adjust the media volume.' }
+        ]
+      },
+      {
+        emoji: '📋', title: 'Copy and Paste Text',
+        desc: 'Copy words and put them somewhere else',
+        steps: [
+          { title: 'Find the text you want to copy', text: 'Go to the message, email, or webpage with the text you want to copy.' },
+          { title: 'Press and hold on a word', text: 'Press your finger firmly on a word and hold it for about one second. Don\'t slide your finger — just hold it still.' },
+          { title: 'A menu appears', text: 'A menu with options like "Cut," "Copy," "Paste," and a blue toolbar with handles will appear.' },
+          { title: 'Select more text if needed', text: 'Drag the blue dot handles to select more words. The highlighted (blue) area is what will be copied.' },
+          { title: 'Tap "Copy"', text: 'Tap the word "Copy" in the menu. The text is now saved to your clipboard (a temporary memory).' },
+          { title: 'Go where you want to paste', text: 'Open the app, message, or email where you want to put the text. Tap in the text area where you want the text to appear.' },
+          { title: 'Tap "Paste"', text: 'Press and hold in the text area until a menu appears, then tap "Paste." Your copied text will appear!', tip: 'You can paste the same text in multiple places — it stays copied until you copy something new.' }
+        ]
+      },
+      {
+        emoji: '🔆', title: 'Change Screen Brightness',
+        desc: 'Make the screen easier to see',
+        steps: [
+          { title: 'Open Control Center', text: 'On newer iPhones (no Home button): swipe down from the top-right corner of the screen.' },
+          { title: 'For older iPhones with Home button', text: 'Swipe up from the very bottom of the screen to open Control Center.' },
+          { title: 'Find the brightness slider', text: 'Look for a slider with a sun icon. The slider is a vertical bar (goes up and down).' },
+          { title: 'Drag to adjust', text: 'Press on the brightness slider and drag up to make the screen brighter, or drag down to make it dimmer.', tip: 'You can also go to Settings → Display & Brightness to adjust brightness there.' }
+        ]
+      },
+      {
+        emoji: '🔋', title: 'Check Your Battery Level',
+        desc: 'See how much charge is left',
+        steps: [
+          { title: 'Look at the top of the screen', text: 'The battery level is always shown in the top-right corner of your screen. It looks like a small rectangle.' },
+          { title: 'Check the exact percentage', text: 'Go to Settings → Battery → and turn on "Battery Percentage." Now you\'ll see a number like "82%" showing exactly how much battery remains.' },
+          { title: 'Understand the colors', text: 'Green = plenty of charge. Yellow = Low Power Mode is on. Red = battery is very low (below about 20%), plug it in soon!' },
+          { title: 'Charge your phone', text: 'Plug the charging cable into the port at the bottom of your iPhone and connect the other end to a power adapter in the wall.', tip: 'It\'s best to charge your phone before it drops below 20%. You cannot overcharge it by leaving it plugged in overnight.' }
+        ]
+      },
+      {
+        emoji: '📞', title: 'Make a FaceTime Video Call',
+        desc: 'See someone\'s face while talking',
+        steps: [
+          { title: 'Open FaceTime', text: 'Find the green FaceTime app on your home screen — it looks like a video camera. Tap it to open.' },
+          { title: 'Tap the "+" button', text: 'In the top-right corner, tap the "+" (plus) button to start a new call.' },
+          { title: 'Type the person\'s name', text: 'In the "To:" box at the top, type the name of the person you want to call. Their name should appear below as you type — tap it to select them.' },
+          { title: 'Choose Video or Audio', text: 'Tap the green "Video" button to start a video call, or "Audio" for a voice-only FaceTime call.' },
+          { title: 'Wait for them to answer', text: 'Your phone will ring on their end. When they pick up, you\'ll see their face on your screen! Your own face appears in a small box in the corner.' },
+          { title: 'End the call', text: 'To hang up, tap the red circle button (phone with an X) at the bottom of the screen.', tip: 'Both people need an iPhone, iPad, or Mac for FaceTime. Make sure your Wi-Fi is connected for the best quality.' }
+        ]
+      },
+      {
+        emoji: '🔔', title: 'Turn Off Notifications for an App',
+        desc: 'Stop an app from interrupting you',
+        steps: [
+          { title: 'Open Settings', text: 'Tap the grey Settings (gear) icon on your home screen.' },
+          { title: 'Tap "Notifications"', text: 'Scroll down a little and tap "Notifications." You\'ll see a list of every app on your phone.' },
+          { title: 'Find the app', text: 'Scroll through the list to find the app that\'s bothering you (for example, a news app or game).' },
+          { title: 'Tap the app\'s name', text: 'Tap on the app\'s name to open its notification settings.' },
+          { title: 'Turn off "Allow Notifications"', text: 'At the top, there\'s a green switch next to "Allow Notifications." Tap it to turn it grey (off). That app will no longer send you any alerts.', tip: 'You can also just turn off "Sounds" or "Badges" if you want to keep some notifications but make them less intrusive.' }
+        ]
+      },
+      {
+        emoji: '📲', title: 'Download a New App',
+        desc: 'Get new apps from the App Store',
+        steps: [
+          { title: 'Open the App Store', text: 'Tap the blue App Store icon — it looks like a white "A" made of sticks on a blue background.' },
+          { title: 'Search for the app', text: 'Tap the "Search" icon at the bottom of the screen (looks like a magnifying glass). Type the name of the app you want, like "Zoom" or "Facebook."' },
+          { title: 'Find the right app', text: 'A list of results appears. Look for the official app — it usually has many reviews and looks professional.' },
+          { title: 'Tap "Get" or the price', text: 'Tap the blue "Get" button (for free apps) or the price button (for paid apps) next to the app.' },
+          { title: 'Confirm with Face ID or password', text: 'Your phone may ask you to confirm with Face ID (look at the phone), Touch ID (fingerprint), or your Apple ID password.' },
+          { title: 'Wait for it to download', text: 'A circle progress indicator appears. When it\'s done, the app appears on your home screen ready to use!', tip: 'Free apps are always free to download. Be careful about apps that charge a subscription fee — this will be clearly shown before you confirm.' }
+        ]
+      },
+      {
+        emoji: '🔵', title: 'Connect Bluetooth Headphones or Speaker',
+        desc: 'Pair a wireless device to your iPhone',
+        steps: [
+          { title: 'Turn on your Bluetooth device', text: 'Make sure your headphones or speaker are turned on and in "pairing mode." This is usually done by holding the power button until a light flashes. Check your device\'s instructions.' },
+          { title: 'Open Settings on your iPhone', text: 'Tap the grey Settings (gear) icon.' },
+          { title: 'Tap "Bluetooth"', text: 'Tap "Bluetooth" near the top of Settings. Make sure the switch is green (on).' },
+          { title: 'Wait for the device to appear', text: 'Under "Other Devices," your headphones or speaker should appear after a few seconds. It may show the device\'s name or model number.' },
+          { title: 'Tap the device name', text: 'Tap on the name of your headphones or speaker to connect.' },
+          { title: 'Look for "Connected"', text: 'After a moment, it will show "Connected" next to the device name. Your iPhone audio will now play through the Bluetooth device!', tip: 'Next time, your iPhone will connect to these headphones automatically as soon as you turn them on — you won\'t need to go through Settings again.' }
+        ]
+      },
+      {
+        emoji: '🗑️', title: 'Free Up Storage Space',
+        desc: 'Make room when your phone is full',
+        steps: [
+          { title: 'Check how much space you have', text: 'Go to Settings → General → iPhone Storage. You\'ll see a colourful bar showing what\'s using your space, and the total used vs. available.' },
+          { title: 'Look at the recommendations', text: 'Apple often suggests ways to free up space at the top of that page, like "Offload Unused Apps." Tap "Enable" to let it do this automatically.' },
+          { title: 'Delete apps you don\'t use', text: 'Scroll through the list of apps. Tap on any app you haven\'t used in a long time, then tap "Delete App" to remove it.' },
+          { title: 'Review your Photos', text: 'Photos and videos take up the most space. Open the Photos app and delete duplicates, blurry photos, or old videos you no longer need.' },
+          { title: 'Empty the Recently Deleted folder', text: 'Deleted photos aren\'t fully removed right away. In Photos, tap Albums → Recently Deleted → Select → Delete All to permanently remove them and reclaim space.', tip: 'If you use iCloud Photos (Settings → Photos → iCloud Photos), your photos are stored online and take up less phone storage.' }
+        ]
+      }
+    ]
+  },
+
+  android: {
+    name: 'Android',
+    icon: '🤖',
+    subtitle: 'Samsung, Google & other Android phones',
+    theme: 'theme-android',
+    topics: [
+      {
+        emoji: '📸', title: 'Take a Screenshot',
+        desc: 'Capture what\'s on your screen',
+        steps: [
+          { title: 'Find the buttons', text: 'On most Android phones, you\'ll take a screenshot using two buttons: the Power button (on the right side or top) and the Volume Down button (on the left side).' },
+          { title: 'Press both buttons at once', text: 'Press the Power button and Volume Down button at exactly the same time. Hold them for about one second, then release.' },
+          { title: 'Watch for confirmation', text: 'You\'ll see the screen flash and hear a shutter sound. A small preview or notification will appear at the top or bottom of the screen.' },
+          { title: 'Find your screenshot', text: 'Open the Photos or Gallery app on your phone. Look for a folder called "Screenshots" to find it.', tip: 'On Samsung phones, you can also swipe the side of your hand across the screen to take a screenshot. Go to Settings → Advanced Features → Motions and Gestures to turn this on.' }
+        ]
+      },
+      {
+        emoji: '🖼️', title: 'Send a Photo in a Text Message',
+        desc: 'Share a picture with someone',
+        steps: [
+          { title: 'Open your Messages app', text: 'Look for the Messages app — it\'s usually green or blue and looks like a speech bubble with lines in it.' },
+          { title: 'Open the conversation', text: 'Tap the name of the person you want to send the photo to. Or tap the pencil/compose icon to start a new message.' },
+          { title: 'Find the attachment button', text: 'Look for a paperclip icon, a plus (+) sign, or a photo/camera icon near the text box at the bottom.' },
+          { title: 'Select "Gallery" or "Photos"', text: 'Tap the option to open your photo gallery. Browse to find the photo you want to send.' },
+          { title: 'Tap your photo', text: 'Tap the photo you want. It may show a preview.' },
+          { title: 'Send the message', text: 'Tap the Send button (usually a paper plane or arrow). The photo will be sent!', tip: 'Some Android phones let you press and hold in the message area to get more options, including attaching a photo.' }
+        ]
+      },
+      {
+        emoji: '📶', title: 'Connect to Wi-Fi',
+        desc: 'Join a wireless internet network',
+        steps: [
+          { title: 'Open Settings', text: 'Tap the Settings app — it looks like a gear or cogwheel. You can usually find it in your apps or by swiping down from the top and tapping the gear icon.' },
+          { title: 'Tap "Wi-Fi" or "Network & Internet"', text: 'Look for Wi-Fi in the list. On Samsung phones it might say "Connections" first, then Wi-Fi.' },
+          { title: 'Make sure Wi-Fi is On', text: 'There\'s a switch or toggle at the top. If it\'s grey, tap it to turn it on (it will turn blue or green).' },
+          { title: 'Find your network', text: 'A list of nearby Wi-Fi networks appears. Find your home network name.' },
+          { title: 'Tap your network', text: 'Tap the name of your network.' },
+          { title: 'Enter the password', text: 'Type your Wi-Fi password. Be careful — it\'s case-sensitive (capital letters matter!). Then tap "Connect."', tip: 'Your Wi-Fi password is often written on a sticker on your router — the box that provides your internet connection.' }
+        ]
+      },
+      {
+        emoji: '🔊', title: 'Adjust the Volume',
+        desc: 'Make sounds louder or quieter',
+        steps: [
+          { title: 'Find the volume buttons', text: 'On the side of your phone (usually the left side), there are two buttons close together. The top one raises the volume; the bottom one lowers it.' },
+          { title: 'Press to adjust', text: 'Press the top button to make sounds louder. Press the bottom button to make them quieter. A bar on screen shows the current volume level.' },
+          { title: 'See the volume types', text: 'When you press a volume button, you\'ll see a slider on screen. There may be options for Ring, Media, and Alarm volumes.' },
+          { title: 'Silence your phone', text: 'Press the Volume Down button all the way down, or press the Power button once to see options including "Mute" or "Vibrate."', tip: 'On many Android phones, pressing Volume Down all the way will switch to vibrate, then to silent.' }
+        ]
+      },
+      {
+        emoji: '📋', title: 'Copy and Paste Text',
+        desc: 'Copy words and put them somewhere else',
+        steps: [
+          { title: 'Find the text to copy', text: 'Go to the message, email, or webpage with the words you want to copy.' },
+          { title: 'Press and hold on a word', text: 'Touch and hold your finger on a word for about one second without moving it. The word should become highlighted.' },
+          { title: 'Select more text', text: 'Blue handles (circles or dots) appear at each end of the selected word. Drag these to select more text.' },
+          { title: 'Tap "Copy"', text: 'A toolbar will appear at the top of your screen or above the text. Tap "Copy."' },
+          { title: 'Go where you want to paste', text: 'Navigate to the app, message, or note where you want to put the copied text. Tap in the text box.' },
+          { title: 'Paste the text', text: 'Press and hold in the text box. Tap "Paste" in the menu that appears.', tip: 'The copied text stays on your clipboard until you copy something new, so you can paste it in multiple places.' }
+        ]
+      },
+      {
+        emoji: '🔆', title: 'Change Screen Brightness',
+        desc: 'Make the screen easier to see',
+        steps: [
+          { title: 'Swipe down from the top', text: 'Place your finger at the very top of the screen and swipe downward. A notification/settings panel appears.' },
+          { title: 'Find the brightness slider', text: 'Look for a horizontal slider with a sun icon. This controls brightness.' },
+          { title: 'Drag to adjust', text: 'Drag the slider left to make the screen dimmer, or right to make it brighter.' },
+          { title: 'Turn on Auto-Brightness', text: 'Look for an "Auto" button near the brightness slider. Turning this on lets the phone automatically adjust brightness based on your surroundings.', tip: 'You can also open Settings → Display → Brightness Level to adjust brightness.' }
+        ]
+      },
+      {
+        emoji: '🔋', title: 'Check Your Battery Level',
+        desc: 'See how much charge is left',
+        steps: [
+          { title: 'Look at the status bar', text: 'The battery icon is always visible in the top-right corner of your screen. A full bar means full battery; an empty bar means low battery.' },
+          { title: 'Show the percentage', text: 'Go to Settings → Battery → and look for "Battery Percentage" or "Show Battery Percentage." Turn it on.' },
+          { title: 'Know when to charge', text: 'When the battery drops below 20%, it\'s time to plug in. Below 10%, a warning will appear.' },
+          { title: 'Charge your phone', text: 'Connect the charging cable to the port at the bottom of your phone and plug into a wall outlet.', tip: 'It\'s safe to leave your phone charging overnight. Modern phones stop charging once they reach 100%.' }
+        ]
+      },
+      {
+        emoji: '📹', title: 'Make a Video Call with Google Meet or Duo',
+        desc: 'See someone\'s face while you talk',
+        steps: [
+          { title: 'Find a video calling app', text: 'Android phones often come with Google Meet (or Google Duo on older phones). Look for it in your apps. If you don\'t have it, you can download it from the Play Store for free.' },
+          { title: 'Open the app', text: 'Tap the Google Meet app — it looks like a colourful video camera icon.' },
+          { title: 'Start a new call', text: 'Tap "New Call" or the camera/phone icon. You\'ll see your contacts list.' },
+          { title: 'Choose who to call', text: 'Tap on the name of the person you want to call. They must also have Google Meet or a Google account.' },
+          { title: 'Tap the video camera icon', text: 'Tap the video camera icon to start a video call. Your phone will ring on their end.' },
+          { title: 'Wait for them to answer', text: 'When they pick up, you\'ll see their face on your screen. Your face appears in a small box in the corner.' },
+          { title: 'End the call', text: 'Tap the red phone button to hang up.', tip: 'You can also video call through WhatsApp or Facebook Messenger if the other person uses those apps too.' }
+        ]
+      },
+      {
+        emoji: '🔔', title: 'Turn Off Notifications for an App',
+        desc: 'Stop an app from interrupting you',
+        steps: [
+          { title: 'Open Settings', text: 'Tap the Settings gear icon — find it in your apps or swipe down and tap the gear in the top corner.' },
+          { title: 'Tap "Notifications" or "Apps"', text: 'On most Android phones, tap "Notifications." On Samsung, go to Settings → Apps, then find the app.' },
+          { title: 'Find the troublesome app', text: 'Scroll through the list of apps to find the one sending too many notifications.' },
+          { title: 'Tap the app\'s name', text: 'Tap on it to see its notification settings.' },
+          { title: 'Turn off notifications', text: 'Toggle off "Allow Notifications" or "Show Notifications" at the top. The app will go quiet.', tip: 'You can also long-press (hold your finger) on a notification when it appears and select "Turn off notifications" as a shortcut.' }
+        ]
+      },
+      {
+        emoji: '📲', title: 'Download a New App from the Play Store',
+        desc: 'Get new apps on your Android phone',
+        steps: [
+          { title: 'Open the Play Store', text: 'Tap the Play Store app — it\'s a colourful triangle (like a play button) on a white background. It\'s usually on your home screen or in your apps.' },
+          { title: 'Tap the Search bar', text: 'At the top of the screen, tap the search bar and type the name of the app you want (for example, "Zoom" or "WhatsApp").' },
+          { title: 'Find the right app', text: 'A list of results appears. Look for the official version — it will have the correct logo, millions of downloads, and good reviews.' },
+          { title: 'Tap "Install"', text: 'Tap the green "Install" button next to the app (or "Free" for free apps).' },
+          { title: 'Wait for it to download', text: 'A progress bar shows the download. When it\'s done, you\'ll see an "Open" button. The app also appears in your list of apps.' },
+          { title: 'Open and use your new app', text: 'Tap "Open" to launch it right away, or find it in your apps anytime.', tip: 'Stick to apps with a large number of downloads and good ratings (4 stars or more) to stay safe.' }
+        ]
+      },
+      {
+        emoji: '🔵', title: 'Connect Bluetooth Headphones or a Speaker',
+        desc: 'Pair a wireless device to your phone',
+        steps: [
+          { title: 'Turn on your Bluetooth device', text: 'Power on your headphones or speaker and put them into "pairing mode." Usually this means holding the power button until a light flashes. Check the device\'s instructions if unsure.' },
+          { title: 'Open Settings', text: 'Tap the Settings gear icon on your phone.' },
+          { title: 'Tap "Bluetooth" or "Connections"', text: 'On Samsung: tap "Connections" then "Bluetooth." On other Android phones: tap "Bluetooth" or "Connected devices."' },
+          { title: 'Turn Bluetooth on', text: 'Make sure the Bluetooth toggle is turned on (blue or green).' },
+          { title: 'Tap "Pair new device" or wait', text: 'Your phone will scan for nearby devices. Your headphones or speaker should appear in the list under "Available devices."' },
+          { title: 'Tap the device name', text: 'Tap the name of your headphones or speaker. After a moment it will show "Connected."', tip: 'Once paired, your phone will reconnect to these headphones automatically in future whenever they\'re both on and nearby.' }
+        ]
+      },
+      {
+        emoji: '⏰', title: 'Set an Alarm',
+        desc: 'Wake up or get a reminder at a set time',
+        steps: [
+          { title: 'Open the Clock app', text: 'Find and tap the Clock app on your phone. It usually looks like a clock face and is often pre-installed.' },
+          { title: 'Tap "Alarm"', text: 'At the bottom of the screen, tap "Alarm" (it may be shown with a bell icon).' },
+          { title: 'Add a new alarm', text: 'Tap the "+" (plus) button, usually in the bottom-right corner, to create a new alarm.' },
+          { title: 'Set the time', text: 'Scroll or tap the numbers to set the hour and minutes. Make sure AM or PM is correct.' },
+          { title: 'Choose repeat days (optional)', text: 'If you want the alarm to go off every day or on certain days of the week, tap the days below the time (M, T, W, Th, F, Sa, Su).' },
+          { title: 'Tap "Save" or "OK"', text: 'Tap the checkmark or "Save" button. Your alarm is set! You\'ll see it listed with a toggle switch — make sure it\'s turned on (coloured, not grey).', tip: 'To stop an alarm when it goes off, tap "Dismiss." To snooze it (get 5–10 more minutes), tap "Snooze."' }
+        ]
+      }
+    ]
+  },
+
+  windows: {
+    name: 'Windows PC',
+    icon: '🖥️',
+    subtitle: 'Windows laptops and desktop computers',
+    theme: 'theme-windows',
+    topics: [
+      {
+        emoji: '📸', title: 'Take a Screenshot',
+        desc: 'Capture what\'s on your screen',
+        steps: [
+          { title: 'Find the PrtSc key', text: 'Look at the top row of your keyboard for a key labeled "PrtSc," "PrtScn," or "Print Screen." It\'s usually in the top-right area of the keyboard.' },
+          { title: 'Easy method: Windows + Shift + S', text: 'Press the Windows key (looks like a flag), Shift, and S all at the same time. The screen will dim slightly.' },
+          { title: 'Draw around what you want', text: 'Your mouse cursor becomes a crosshair. Click and drag to draw a box around the part of the screen you want to capture.' },
+          { title: 'The screenshot is copied', text: 'The selected area is automatically copied. Open an email, Word document, or Paint to paste it.' },
+          { title: 'Alternative: save directly', text: 'Press Windows key + PrtSc at the same time. The screen will flash and the screenshot saves automatically to your Pictures → Screenshots folder.', tip: 'To paste your screenshot, click where you want it and press Ctrl + V (hold Ctrl and press V).' }
+        ]
+      },
+      {
+        emoji: '📎', title: 'Attach a Photo to an Email',
+        desc: 'Send a picture in an email',
+        steps: [
+          { title: 'Open your email', text: 'Open your email program (like Outlook, Gmail in your browser, or Windows Mail).' },
+          { title: 'Start a new email', text: 'Click "New Email," "Compose," or the + button to write a new message. Fill in the person\'s email address and a subject.' },
+          { title: 'Find the attachment button', text: 'Look for a paperclip icon, or a button that says "Attach," "Insert," or "Add attachment." Click it.' },
+          { title: 'Find your photo', text: 'A window opens to browse your files. Navigate to "Pictures" or "Desktop" to find your photo.' },
+          { title: 'Select the photo', text: 'Click on the photo once to select it (it will be highlighted). Then click "Open" or "Insert."' },
+          { title: 'Send the email', text: 'You\'ll see the photo listed as an attachment. Click "Send."', tip: 'Photos can be large files. If your email bounces back, the photo may have been too large to send.' }
+        ]
+      },
+      {
+        emoji: '📶', title: 'Connect to Wi-Fi',
+        desc: 'Join a wireless internet network',
+        steps: [
+          { title: 'Find the Wi-Fi icon', text: 'Look at the bottom-right corner of your screen (the taskbar). You\'ll see a Wi-Fi symbol — it looks like curved lines forming a fan shape.' },
+          { title: 'Click the Wi-Fi icon', text: 'Click that symbol once. A panel appears showing nearby Wi-Fi networks.' },
+          { title: 'Find your network', text: 'Look through the list for your home network\'s name.' },
+          { title: 'Click your network', text: 'Click on your network\'s name.' },
+          { title: 'Click "Connect"', text: 'A "Connect" button appears. Click it.' },
+          { title: 'Enter the password', text: 'Type your Wi-Fi password carefully and click "Next" or "Connect."', tip: 'Check "Connect automatically" so you won\'t have to enter the password again next time.' }
+        ]
+      },
+      {
+        emoji: '🔊', title: 'Adjust the Volume',
+        desc: 'Make sounds louder or quieter',
+        steps: [
+          { title: 'Find the speaker icon', text: 'Look at the bottom-right corner of your screen. There\'s a small speaker icon in the taskbar.' },
+          { title: 'Click the speaker icon', text: 'Click on it once. A volume slider appears.' },
+          { title: 'Drag the slider', text: 'Click and drag the slider left to make it quieter, or right to make it louder. The number shown is the volume percentage.' },
+          { title: 'Mute the sound', text: 'Click the speaker icon next to the slider to mute (silence) all sounds. Click it again to turn sound back on.', tip: 'Your keyboard may also have volume keys — look for keys with speaker icons and + / − signs, often in the top row of function keys.' }
+        ]
+      },
+      {
+        emoji: '📋', title: 'Copy and Paste Text',
+        desc: 'Copy words and put them somewhere else',
+        steps: [
+          { title: 'Select the text', text: 'Click at the start of the text you want to copy. Hold down your mouse button and drag to the end of the text. The text will become highlighted (usually blue).' },
+          { title: 'Select all text (shortcut)', text: 'To select everything on the page, press Ctrl + A (hold the Ctrl key and press A).' },
+          { title: 'Copy the text', text: 'Press Ctrl + C (hold Ctrl and press C). The text is now copied to the clipboard.' },
+          { title: 'Go where you want to paste', text: 'Click in the document, email, or text box where you want to place the text.' },
+          { title: 'Paste the text', text: 'Press Ctrl + V (hold Ctrl and press V). The copied text will appear!', tip: 'You can also right-click (press the right mouse button) on selected text and choose "Copy," then right-click again where you want to paste and choose "Paste."' }
+        ]
+      },
+      {
+        emoji: '🔆', title: 'Change Screen Brightness',
+        desc: 'Make the screen easier to see',
+        steps: [
+          { title: 'Open Settings', text: 'Click the Start button (Windows flag icon at the bottom left), then click the gear icon to open Settings.' },
+          { title: 'Go to System → Display', text: 'In Settings, click "System." Then click "Display" from the left menu.' },
+          { title: 'Find the Brightness slider', text: 'At the top of the Display page, you\'ll see a brightness slider.' },
+          { title: 'Drag to adjust', text: 'Drag the slider left for dimmer, right for brighter.', tip: 'On a laptop, you can often use keyboard shortcuts: look for brightness keys (sun icons) on your top row of keys. Press Fn + that key to adjust.' }
+        ]
+      },
+      {
+        emoji: '🔄', title: 'Restart or Shut Down Your Computer',
+        desc: 'Turn it off or start fresh',
+        steps: [
+          { title: 'Save your work first', text: 'Before restarting, save any documents or emails you\'re working on. Press Ctrl + S to save most documents.' },
+          { title: 'Click the Start button', text: 'Click the Windows flag icon at the bottom-left of your screen.' },
+          { title: 'Click the Power button', text: 'At the bottom or top of the Start menu, look for a power symbol (a circle with a line at the top). Click it.' },
+          { title: 'Choose an option', text: '"Sleep" — saves your work and uses less power. "Shut down" — fully turns the computer off. "Restart" — turns it off then back on (good for fixing problems).', tip: 'If your computer seems slow or acting strange, a Restart often fixes the problem. It\'s like giving it a fresh start.' }
+        ]
+      },
+      {
+        emoji: '🎥', title: 'Join a Zoom Video Call',
+        desc: 'See and talk to people on a video call',
+        steps: [
+          { title: 'Open the Zoom invitation', text: 'You\'ll usually receive a Zoom link in an email or text message. It looks like: "zoom.us/j/12345678." Click that link.' },
+          { title: 'Open Zoom or open in browser', text: 'A message may appear asking to open Zoom. Click "Open Zoom." If you don\'t have Zoom installed, you can also click "Join from Your Browser."' },
+          { title: 'Enter the Meeting ID if needed', text: 'If a box asks for a Meeting ID, type the numbers from the invitation. Then click "Join."' },
+          { title: 'Enter your name', text: 'Type your name so others can see who you are, then click "Continue" or "Join."' },
+          { title: 'Allow your camera and microphone', text: 'Zoom may ask permission to use your camera and microphone. Click "Allow" for both.' },
+          { title: 'Click "Join with Video"', text: 'A preview of your camera will appear. Click "Join with Video" to enter the meeting.' },
+          { title: 'Mute yourself when not speaking', text: 'Click the microphone icon at the bottom-left to mute/unmute yourself. A red line through it means you\'re muted.', tip: 'To leave the meeting, click the red "Leave" or "End" button in the bottom-right corner.' }
+        ]
+      },
+      {
+        emoji: '🌐', title: 'Set Up and Use a Web Browser',
+        desc: 'Browse websites on the internet',
+        steps: [
+          { title: 'Find your browser', text: 'Windows comes with Microsoft Edge (a blue wave-shaped icon). You can also use Google Chrome (colourful circle) or Firefox (orange fox). Double-click the icon to open it.' },
+          { title: 'Find the address bar', text: 'At the top of the browser window there\'s a long bar — this is the address bar. It may show the current website address.' },
+          { title: 'Type a website address', text: 'Click in the address bar, type a website address (like www.google.com or www.bbc.co.uk), and press the Enter key.' },
+          { title: 'Or search for something', text: 'You can also type plain words (like "weather today" or "pasta recipe") into the address bar and press Enter to search Google.' },
+          { title: 'Go back and forward', text: 'The ← arrow at the top-left goes back to the previous page. The → arrow goes forward again.' },
+          { title: 'Open a new tab', text: 'Press Ctrl + T to open a new blank tab, so you can visit a second website without closing the first.', tip: 'If text on a webpage is too small, hold Ctrl and press + (plus) to zoom in. Press Ctrl + − (minus) to zoom back out.' }
+        ]
+      },
+      {
+        emoji: '📁', title: 'Find and Open a File',
+        desc: 'Locate documents, photos, and downloads',
+        steps: [
+          { title: 'Open File Explorer', text: 'Click the folder icon in your taskbar (the bar at the bottom of the screen). This opens File Explorer — your file manager.' },
+          { title: 'Look in common folders', text: 'On the left side, you\'ll see folders like "Documents" (for letters and files), "Pictures" (for photos), "Downloads" (for things downloaded from the internet), and "Desktop."' },
+          { title: 'Click a folder to open it', text: 'Click on a folder name to see what\'s inside. Double-click a file to open it.' },
+          { title: 'Use the search bar', text: 'If you can\'t find your file, click in the Search box at the top of File Explorer and type part of the file\'s name.' },
+          { title: 'Open the file', text: 'When you find your file, double-click it to open it in the right program automatically.', tip: 'Files you download from the internet (like PDFs or photos) almost always go to the "Downloads" folder first.' }
+        ]
+      },
+      {
+        emoji: '🔒', title: 'Create a Strong Password',
+        desc: 'Keep your accounts safe online',
+        steps: [
+          { title: 'Why passwords matter', text: 'A strong password stops strangers from getting into your email, bank, or other accounts. Weak passwords like "password" or your birthday are easy for criminals to guess.' },
+          { title: 'Make it long', text: 'A good password is at least 12 characters long. Longer is safer.' },
+          { title: 'Mix different types of characters', text: 'Use a mix of uppercase letters (A, B, C), lowercase letters (a, b, c), numbers (1, 2, 3), and symbols (!, @, #, $).' },
+          { title: 'Use a phrase you\'ll remember', text: 'Think of a memorable sentence and use the first letter of each word. For example: "My cat Felix loves tuna on Fridays!" becomes "McFlt0F!"' },
+          { title: 'Never reuse passwords', text: 'Use a different password for each important account (email, bank, etc.). If one account is hacked, the others stay safe.' },
+          { title: 'Write it down safely', text: 'It\'s OK to write your passwords in a notebook kept in a safe place at home. Just don\'t store them on your computer or phone without protection.', tip: 'A "password manager" app like Bitwarden (free) can remember all your passwords safely, so you only need to remember one master password.' }
+        ]
+      },
+      {
+        emoji: '🖨️', title: 'Print a Document or Web Page',
+        desc: 'Get a paper copy of something on screen',
+        steps: [
+          { title: 'Make sure your printer is on', text: 'Turn on your printer and make sure it\'s connected to your computer (by cable or Wi-Fi) and has paper loaded.' },
+          { title: 'Open what you want to print', text: 'Open the document, email, photo, or webpage you want to print.' },
+          { title: 'Open the Print menu', text: 'Press Ctrl + P (hold Ctrl and press P). A print preview window will open, showing what the printout will look like.' },
+          { title: 'Choose your printer', text: 'At the top of the print window, make sure your printer\'s name is selected. If it shows the wrong printer, click the dropdown and choose the correct one.' },
+          { title: 'Choose number of copies', text: 'Set how many copies you want to print.' },
+          { title: 'Click "Print"', text: 'Click the "Print" button. Your printer will start printing!', tip: 'If nothing prints, check that the printer is turned on, has paper, and is connected. Try pressing Ctrl + P again.' }
+        ]
+      }
+    ]
+  },
+
+  mac: {
+    name: 'Mac',
+    icon: '💻',
+    subtitle: 'Apple MacBook and iMac',
+    theme: 'theme-mac',
+    topics: [
+      {
+        emoji: '📸', title: 'Take a Screenshot',
+        desc: 'Capture what\'s on your screen',
+        steps: [
+          { title: 'Learn the key combination', text: 'Screenshots on a Mac use the Command key (⌘ — it has a clover-like symbol), Shift, and a number.' },
+          { title: 'Capture the whole screen', text: 'Press Command (⌘) + Shift + 3 all at the same time. The screen will flash and you\'ll hear a camera click.' },
+          { title: 'Capture part of the screen', text: 'Press Command (⌘) + Shift + 4. Your cursor becomes a crosshair. Click and drag to draw around the area you want.' },
+          { title: 'Find your screenshot', text: 'Screenshots are automatically saved on your Desktop as image files, named with the date and time.', tip: 'On newer Macs, a small preview appears in the bottom corner. Click it to edit or share the screenshot right away.' }
+        ]
+      },
+      {
+        emoji: '📎', title: 'Attach a Photo to an Email',
+        desc: 'Send a picture in an email',
+        steps: [
+          { title: 'Open Mail', text: 'Click the Mail app in your Dock (the bar at the bottom of your screen with app icons). Or use your web browser to open Gmail or another email site.' },
+          { title: 'Compose a new email', text: 'Click the pencil/compose icon or "New Message" to write a new email.' },
+          { title: 'Attach your photo', text: 'Click the paperclip icon, or go to the menu and choose "File → Attach Files." A window opens to browse your files.' },
+          { title: 'Find your photo', text: 'Navigate to "Pictures" or "Photos." Click your photo to select it.' },
+          { title: 'Click "Choose File"', text: 'Click the "Choose File" button to attach it to the email.' },
+          { title: 'Send', text: 'Fill in the address, subject, and your message. Click "Send."', tip: 'You can also drag a photo from your Desktop directly into the email body to attach it.' }
+        ]
+      },
+      {
+        emoji: '📶', title: 'Connect to Wi-Fi',
+        desc: 'Join a wireless internet network',
+        steps: [
+          { title: 'Find the Wi-Fi icon', text: 'Look at the top-right corner of your screen (the menu bar). The Wi-Fi symbol looks like curved lines forming a fan.' },
+          { title: 'Click the Wi-Fi icon', text: 'Click on it. A drop-down list of nearby networks appears.' },
+          { title: 'Find your network', text: 'Look for your home network name in the list.' },
+          { title: 'Click your network', text: 'Click on your network\'s name.' },
+          { title: 'Enter the password', text: 'Type your Wi-Fi password and click "Join."', tip: 'Check "Remember this network" to connect automatically in the future.' }
+        ]
+      },
+      {
+        emoji: '🔊', title: 'Adjust the Volume',
+        desc: 'Make sounds louder or quieter',
+        steps: [
+          { title: 'Use the keyboard', text: 'Your Mac keyboard has dedicated volume keys. Look for keys with speaker icons (usually F10, F11, F12 or similar). Press F11/F12 or use the dedicated Volume keys.' },
+          { title: 'Or click the menu bar', text: 'Click the speaker icon in the top-right corner of your screen.' },
+          { title: 'Drag the slider', text: 'A volume slider appears. Drag it up for louder or down for quieter.' },
+          { title: 'Mute the sound', text: 'Press the mute key on your keyboard (the speaker with an X), or click the mute option in the menu.', tip: 'On MacBooks, you can hold the Option key while pressing the volume keys to open Sound preferences for more detailed settings.' }
+        ]
+      },
+      {
+        emoji: '📋', title: 'Copy and Paste Text',
+        desc: 'Copy words and put them somewhere else',
+        steps: [
+          { title: 'Select the text', text: 'Click at the start of the text. Hold the mouse button and drag to highlight the text you want. It turns blue/highlighted when selected.' },
+          { title: 'Copy it', text: 'Press Command (⌘) + C. The text is now copied.' },
+          { title: 'Navigate to the destination', text: 'Go to the document, email, or text field where you want to paste.' },
+          { title: 'Click to place your cursor', text: 'Click in the spot where you want the text to appear.' },
+          { title: 'Paste', text: 'Press Command (⌘) + V. The copied text appears!', tip: 'You can also right-click (two-finger click on a trackpad) on selected text to see Copy/Paste options in a menu.' }
+        ]
+      },
+      {
+        emoji: '🔆', title: 'Change Screen Brightness',
+        desc: 'Make the screen easier to see',
+        steps: [
+          { title: 'Use the keyboard', text: 'Look for brightness keys on your keyboard — they look like suns. Press the brighter sun to increase brightness, the smaller sun to decrease it.' },
+          { title: 'Or open System Settings', text: 'Click the Apple logo (🍎) in the very top-left corner of your screen. Choose "System Settings" or "System Preferences."' },
+          { title: 'Go to Displays', text: 'Click "Displays" in the settings window.' },
+          { title: 'Adjust the slider', text: 'Move the Brightness slider left or right to your preferred level.', tip: 'Turn on "Automatically adjust brightness" and your Mac will adjust the screen based on the room lighting.' }
+        ]
+      },
+      {
+        emoji: '🔄', title: 'Restart or Shut Down Your Mac',
+        desc: 'Turn it off or start fresh',
+        steps: [
+          { title: 'Save your work', text: 'Save any open documents first. Press Command (⌘) + S to save most files.' },
+          { title: 'Click the Apple menu', text: 'Click the Apple logo (🍎) in the very top-left corner of your screen.' },
+          { title: 'Choose an option', text: '"Sleep" — saves power while keeping everything ready. "Restart" — shuts down and starts back up fresh (great for fixing problems). "Shut Down" — fully turns off the Mac.' },
+          { title: 'Confirm', text: 'A dialog box may ask to confirm. Click "Restart" or "Shut Down" to confirm.', tip: 'If your Mac is frozen and not responding, hold the Power button (on the keyboard or the side of the Mac) for 5 seconds to force it to turn off.' }
+        ]
+      },
+      {
+        emoji: '🎥', title: 'Join a Zoom Video Call',
+        desc: 'See and talk to people on a video call',
+        steps: [
+          { title: 'Click the Zoom link', text: 'You\'ll usually receive a Zoom link in an email or message. It looks like "zoom.us/j/12345678." Click it.' },
+          { title: 'Open the Zoom app', text: 'A message may appear asking to open Zoom. Click "Open Zoom." If Zoom isn\'t installed, you can click "Join from Your Browser" instead.' },
+          { title: 'Enter the Meeting ID if needed', text: 'If asked for a Meeting ID, type the numbers from the invitation and click "Join."' },
+          { title: 'Enter your name', text: 'Type your name so others can see who you are, then click "Continue."' },
+          { title: 'Allow camera and microphone', text: 'Zoom will ask to use your camera and microphone. Click "Allow" for both.' },
+          { title: 'Click "Join with Video"', text: 'You\'ll see a preview of yourself. Click "Join with Video" to enter the meeting.' },
+          { title: 'Mute and unmute yourself', text: 'Click the microphone icon at the bottom-left to mute yourself when others are talking, and unmute when it\'s your turn.', tip: 'To leave the meeting, click the red "Leave" button in the bottom-right corner of the Zoom window.' }
+        ]
+      },
+      {
+        emoji: '🌐', title: 'Browse the Web with Safari',
+        desc: 'Visit websites on the internet',
+        steps: [
+          { title: 'Open Safari', text: 'Click the Safari icon in your Dock — it looks like a blue compass. Safari is Apple\'s built-in web browser.' },
+          { title: 'Find the address bar', text: 'At the top of the Safari window is a long bar called the Smart Search field (address bar).' },
+          { title: 'Type a website address', text: 'Click in the address bar, type a web address (like www.google.com), and press Return (Enter) on your keyboard.' },
+          { title: 'Or search for something', text: 'You can also type plain words (like "BBC news" or "chicken soup recipe") and press Return. Safari will search Google for you.' },
+          { title: 'Go back and forward', text: 'Click the ← button at the top-left to go back. Click → to go forward.' },
+          { title: 'Open a new tab', text: 'Press Command (⌘) + T to open a new tab. This lets you look at a second website without losing the first one.', tip: 'If text is too small, press Command (⌘) + + (plus) to zoom in on the page. Press Command (⌘) + − (minus) to zoom out.' }
+        ]
+      },
+      {
+        emoji: '📁', title: 'Find and Open a File',
+        desc: 'Locate documents, photos, and downloads',
+        steps: [
+          { title: 'Open Finder', text: 'Click the Finder icon in your Dock — it\'s the blue and white smiley face icon. Finder is how you browse files on your Mac.' },
+          { title: 'Look in common locations', text: 'On the left side panel you\'ll see: "Documents" (letters, files), "Pictures" (photos), "Downloads" (files from the internet), and "Desktop."' },
+          { title: 'Click a folder', text: 'Click any folder name to see its contents. Double-click a file to open it.' },
+          { title: 'Use the search', text: 'If you can\'t find it, press Command (⌘) + F or click the magnifying glass icon in the top-right corner of Finder to search by name.' },
+          { title: 'Open your file', text: 'Double-click the file to open it. Your Mac will automatically use the right app to open it.', tip: 'Files downloaded from the internet (PDFs, photos, etc.) almost always land in the "Downloads" folder first.' }
+        ]
+      },
+      {
+        emoji: '🖨️', title: 'Print a Document or Web Page',
+        desc: 'Get a paper copy of something on screen',
+        steps: [
+          { title: 'Make sure the printer is ready', text: 'Turn on your printer and check it\'s connected (by USB cable or Wi-Fi) and has paper loaded.' },
+          { title: 'Open the Print dialog', text: 'Press Command (⌘) + P while viewing the document, photo, or webpage you want to print. A print preview window will appear.' },
+          { title: 'Choose your printer', text: 'At the top of the print window, make sure your printer\'s name appears. If not, click the dropdown menu and select it.' },
+          { title: 'Set the number of copies', text: 'Change the "Copies" number if you want more than one printout.' },
+          { title: 'Click "Print"', text: 'Click the blue "Print" button. Your printer will start printing shortly!', tip: 'If nothing prints, check that the printer is turned on and has paper. You may need to install the printer first: go to System Settings → Printers & Scanners.' }
+        ]
+      },
+      {
+        emoji: '🔐', title: 'Use FaceTime to Video Call',
+        desc: 'Call family and friends face-to-face',
+        steps: [
+          { title: 'Open FaceTime', text: 'Click the FaceTime app in your Dock or Applications folder — it looks like a green video camera.' },
+          { title: 'Sign in if needed', text: 'If asked, sign in with your Apple ID (the email address you use for Apple). If you don\'t have one, you can make a free account at appleid.apple.com.' },
+          { title: 'Type the person\'s name or number', text: 'Click in the search/new call field at the top and type the name, phone number, or email address of the person you want to call.' },
+          { title: 'Click the video camera icon', text: 'Click the green video camera button next to their name to start a video call.' },
+          { title: 'Wait for them to answer', text: 'Their phone or computer will ring. When they answer, you\'ll see their face on screen. Your own face appears in a small box.' },
+          { title: 'End the call', text: 'Click the red phone button at the top of the FaceTime window to hang up.', tip: 'FaceTime only works between Apple devices (iPhone, iPad, Mac). For calling Android or Windows users, try Zoom or WhatsApp instead.' }
+        ]
+      }
+    ]
+  }
+};
+
+/* ══════════════════════════════════════
+   STATE
+══════════════════════════════════════ */
+let currentDevice = null;
+let screenStack = ['home'];
+
+/* ══════════════════════════════════════
+   NAVIGATION
+══════════════════════════════════════ */
+function showScreen(id) {
+  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+}
+
+function showTopics(deviceKey) {
+  currentDevice = deviceKey;
+  const device = DEVICES[deviceKey];
+
+  // apply theme
+  document.body.className = document.body.className.replace(/theme-\S+/g, '').trim();
+  document.body.classList.add(device.theme);
+
+  // populate header
+  document.getElementById('topic-device-icon').textContent = device.icon;
+  document.getElementById('topic-device-name').textContent = device.name;
+  document.getElementById('topic-device-subtitle').textContent = device.subtitle;
+
+  // populate topics
+  const list = document.getElementById('topic-list');
+  list.innerHTML = '';
+  device.topics.forEach((topic, i) => {
+    const card = document.createElement('div');
+    card.className = 'topic-card';
+    card.setAttribute('role', 'button');
+    card.setAttribute('tabindex', '0');
+    card.innerHTML = `
+      <div class="topic-emoji">${topic.emoji}</div>
+      <div class="topic-text">
+        <h4>${topic.title}</h4>
+        <p>${topic.desc}</p>
+      </div>
+      <div class="topic-arrow">›</div>
+    `;
+    card.addEventListener('click', () => showGuide(deviceKey, i));
+    card.addEventListener('keydown', e => { if(e.key==='Enter'||e.key===' ') showGuide(deviceKey, i); });
+    list.appendChild(card);
+  });
+
+  screenStack.push('topics');
+  updateHeader('topics');
+  showScreen('topic-screen');
+  window.scrollTo(0, 0);
+}
+
+function showGuide(deviceKey, topicIndex) {
+  const device = DEVICES[deviceKey];
+  const topic = device.topics[topicIndex];
+
+  document.getElementById('guide-emoji').textContent = topic.emoji;
+  document.getElementById('guide-title').textContent = topic.title;
+  document.getElementById('guide-subtitle').textContent = device.name;
+
+  const container = document.getElementById('steps-container');
+  container.innerHTML = '';
+
+  topic.steps.forEach((step, i) => {
+    const card = document.createElement('div');
+    card.className = 'step-card';
+    const tipHtml = step.tip ? `<div class="tip">${step.tip}</div>` : '';
+    const visualHtml = (() => {
+      const svg = getVisual(topic.title, i);
+      return svg ? `<div class="step-visual">${svg}</div>` : '';
+    })();
+    card.innerHTML = `
+      <div class="step-num">${i + 1}</div>
+      <div class="step-body">
+        <h5>${step.title}</h5>
+        <p>${step.text}</p>
+        ${tipHtml}
+        ${visualHtml}
+      </div>
+    `;
+    container.appendChild(card);
+  });
+
+  // done banner
+  const banner = document.createElement('div');
+  banner.className = 'done-banner';
+  banner.textContent = `✅ That's it! You've got it. Great job!`;
+  container.appendChild(banner);
+
+  screenStack.push('guide');
+  updateHeader('guide', topic.title);
+  showScreen('guide-screen');
+  window.scrollTo(0, 0);
+}
+
+function goBack() {
+  screenStack.pop();
+  const prev = screenStack[screenStack.length - 1];
+  if (prev === 'topics') {
+    updateHeader('topics');
+    showScreen('topic-screen');
+  } else {
+    screenStack = ['home'];
+    document.body.className = document.body.className.replace(/theme-\S+/g, '').trim();
+    updateHeader('home');
+    showScreen('home-screen');
+  }
+  window.scrollTo(0, 0);
+}
+
+function updateHeader(screen, guideTitle) {
+  const backBtn = document.getElementById('back-btn');
+  const h1 = document.getElementById('header-h1');
+  const sub = document.getElementById('header-sub');
+  const icon = document.getElementById('header-icon');
+
+  if (screen === 'home') {
+    backBtn.style.display = 'none';
+    h1.textContent = 'Grandparent Tech Helper';
+    sub.textContent = 'Simple guides for everyday technology';
+    icon.textContent = '📱';
+  } else if (screen === 'topics') {
+    backBtn.style.display = 'block';
+    const device = DEVICES[currentDevice];
+    h1.textContent = device.name + ' Help';
+    sub.textContent = 'Choose a topic';
+    icon.textContent = device.icon;
+  } else if (screen === 'guide') {
+    backBtn.style.display = 'block';
+    h1.textContent = guideTitle || 'Step-by-Step Guide';
+    sub.textContent = 'Follow each step below';
+    icon.textContent = '📖';
+  }
+}
+
+/* ── FONT SIZE ── */
+const sizes = ['', 'text-lg', 'text-xl'];
+let sizeIdx = 0;
+function growText() {
+  if (sizeIdx < sizes.length - 1) {
+    document.body.classList.remove(sizes[sizeIdx]);
+    sizeIdx++;
+    document.body.classList.add(sizes[sizeIdx]);
+  }
+}
+function shrinkText() {
+  if (sizeIdx > 0) {
+    document.body.classList.remove(sizes[sizeIdx]);
+    sizeIdx--;
+    if (sizes[sizeIdx]) document.body.classList.add(sizes[sizeIdx]);
+  }
+}
+
+/* keyboard nav for device cards */
+document.querySelectorAll('.device-card').forEach(card => {
+  card.addEventListener('keydown', e => {
+    if (e.key === 'Enter' || e.key === ' ') card.click();
+  });
+});
+
+/* ══════════════════════════════════════
+   SVG VISUAL LIBRARY — complete rebuild
+══════════════════════════════════════ */
+const VISUALS = {
+
+  /* ── SHARED PHONE SHAPES ── */
+  iphone_body: (content='', label='') => `
+    <svg viewBox="0 0 160 280" width="130" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="10" width="120" height="260" rx="22" ry="22" fill="#1a1a2e" stroke="#444" stroke-width="2"/>
+      <rect x="26" y="30" width="108" height="210" rx="6" fill="#e8f0fe"/>
+      <rect x="60" y="14" width="40" height="8" rx="4" fill="#333"/>
+      <circle cx="80" cy="258" r="8" fill="#333" stroke="#555" stroke-width="1.5"/>
+      ${content}
+    </svg>
+    ${label ? `<div class="vis-label">${label}</div>` : ''}`,
+
+  android_body: (content='', label='') => `
+    <svg viewBox="0 0 160 280" width="130" xmlns="http://www.w3.org/2000/svg">
+      <rect x="20" y="10" width="120" height="260" rx="16" ry="16" fill="#1a2a1a" stroke="#444" stroke-width="2"/>
+      <rect x="26" y="28" width="108" height="215" rx="4" fill="#e8f5e9"/>
+      <circle cx="80" cy="262" r="5" fill="#4a8c4d"/>
+      ${content}
+    </svg>
+    ${label ? `<div class="vis-label">${label}</div>` : ''}`,
+
+  computer_screen: (content='', label='') => `
+    <svg viewBox="0 0 260 180" width="240" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="10" width="240" height="145" rx="10" fill="#1a1a2e" stroke="#444" stroke-width="2"/>
+      <rect x="18" y="18" width="224" height="129" rx="4" fill="#e8f0fe"/>
+      <rect x="100" y="158" width="60" height="10" rx="3" fill="#555"/>
+      <rect x="70" y="167" width="120" height="6" rx="3" fill="#444"/>
+      ${content}
+    </svg>
+    ${label ? `<div class="vis-label">${label}</div>` : ''}`,
+
+  mac_screen: (content='', label='') => `
+    <svg viewBox="0 0 260 180" width="240" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="8" width="240" height="148" rx="10" fill="#2a1a3a" stroke="#555" stroke-width="2"/>
+      <rect x="18" y="28" width="224" height="120" rx="3" fill="#f3e5f5"/>
+      <rect x="18" y="8" width="224" height="20" rx="10" fill="#3a2a4a"/>
+      <circle cx="30" cy="18" r="5" fill="#ff5f57"/>
+      <circle cx="46" cy="18" r="5" fill="#ffbd2e"/>
+      <circle cx="62" cy="18" r="5" fill="#28c840"/>
+      <rect x="100" y="158" width="60" height="10" rx="3" fill="#555"/>
+      <rect x="70" y="167" width="120" height="6" rx="3" fill="#444"/>
+      ${content}
+    </svg>
+    ${label ? `<div class="vis-label">${label}</div>` : ''}`,
+
+  /* ══ SCREENSHOT ══ */
+  'screenshot_buttons_iphone': () => VISUALS.iphone_body(`
+    <!-- side button highlighted -->
+    <rect x="138" y="90" width="6" height="30" rx="3" fill="#f9a825" class="vis-pulse" stroke="#e65100" stroke-width="1"/>
+    <!-- vol up highlighted -->
+    <rect x="16" y="80" width="5" height="22" rx="2.5" fill="#f9a825" class="vis-pulse" stroke="#e65100" stroke-width="1"/>
+    <text x="80" y="160" text-anchor="middle" font-size="10" fill="#1565c0" font-weight="bold">Side + Vol Up</text>
+    <text x="80" y="173" text-anchor="middle" font-size="9" fill="#555">Press together</text>
+  `, 'Press these two buttons at the same time'),
+
+  'screenshot_flash': () => VISUALS.iphone_body(`
+    <rect x="26" y="30" width="108" height="210" rx="6" fill="white" class="vis-pulse"/>
+    <text x="80" y="130" text-anchor="middle" font-size="11" fill="#1565c0" font-weight="bold">✦ Flash!</text>
+    <!-- thumbnail preview bottom left -->
+    <rect x="30" y="220" width="36" height="16" rx="3" fill="#ccc" stroke="#999" stroke-width="1"/>
+    <text x="48" y="231" text-anchor="middle" font-size="7" fill="#333">Preview</text>
+  `, 'Screen flashes — preview appears bottom-left'),
+
+  'screenshot_android_buttons': () => VISUALS.android_body(`
+    <!-- power button -->
+    <rect x="138" y="90" width="6" height="26" rx="3" fill="#f9a825" class="vis-pulse" stroke="#e65100" stroke-width="1"/>
+    <!-- vol down -->
+    <rect x="16" y="105" width="5" height="18" rx="2.5" fill="#f9a825" class="vis-pulse" stroke="#e65100" stroke-width="1"/>
+    <text x="80" y="160" text-anchor="middle" font-size="10" fill="#2e7d32" font-weight="bold">Power + Vol Down</text>
+    <text x="80" y="173" text-anchor="middle" font-size="9" fill="#555">Press together</text>
+  `, 'Press Power + Volume Down together'),
+
+  'screenshot_windows_keys': () => VISUALS.computer_screen(`
+    <!-- keyboard row -->
+    <rect x="30" y="110" width="200" height="30" rx="4" fill="#dde"/>
+    <!-- Win key -->
+    <rect x="40" y="115" width="28" height="20" rx="3" fill="#1976d2" stroke="#0d47a1" stroke-width="1"/>
+    <text x="54" y="129" text-anchor="middle" font-size="9" fill="white" font-weight="bold">⊞ Win</text>
+    <!-- + -->
+    <text x="78" y="129" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">+</text>
+    <!-- Shift key -->
+    <rect x="88" y="115" width="32" height="20" rx="3" fill="#1976d2" stroke="#0d47a1" stroke-width="1" class="vis-pulse"/>
+    <text x="104" y="129" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Shift</text>
+    <!-- + -->
+    <text x="130" y="129" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">+</text>
+    <!-- S key -->
+    <rect x="140" y="115" width="22" height="20" rx="3" fill="#1976d2" stroke="#0d47a1" stroke-width="1" class="vis-pulse"/>
+    <text x="151" y="129" text-anchor="middle" font-size="10" fill="white" font-weight="bold">S</text>
+    <!-- screen dims -->
+    <rect x="18" y="18" width="224" height="129" rx="4" fill="#b0bec5" opacity="0.5"/>
+    <text x="130" y="85" text-anchor="middle" font-size="11" fill="#1976d2" font-weight="bold">Drag to select area</text>
+  `, 'Win + Shift + S — then drag to select'),
+
+  'screenshot_mac_keys': () => VISUALS.mac_screen(`
+    <rect x="30" y="110" width="200" height="30" rx="4" fill="#ddd"/>
+    <rect x="38" y="115" width="32" height="20" rx="3" fill="#6a1b9a" stroke="#4a0070" stroke-width="1"/>
+    <text x="54" y="129" text-anchor="middle" font-size="9" fill="white" font-weight="bold">⌘ Cmd</text>
+    <text x="80" y="129" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">+</text>
+    <rect x="90" y="115" width="34" height="20" rx="3" fill="#6a1b9a" stroke="#4a0070" stroke-width="1" class="vis-pulse"/>
+    <text x="107" y="129" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Shift</text>
+    <text x="134" y="129" text-anchor="middle" font-size="12" fill="#333" font-weight="bold">+</text>
+    <rect x="144" y="115" width="22" height="20" rx="3" fill="#6a1b9a" stroke="#4a0070" stroke-width="1" class="vis-pulse"/>
+    <text x="155" y="129" text-anchor="middle" font-size="10" fill="white" font-weight="bold">4</text>
+    <text x="130" y="75" text-anchor="middle" font-size="10" fill="#6a1b9a" font-weight="bold">Saved to Desktop</text>
+  `, '⌘ + Shift + 4 to select an area'),
+
+  /* ══ SEND PHOTO ══ */
+  'photo_messages_app': () => VISUALS.iphone_body(`
+    <!-- message bubbles -->
+    <rect x="55" y="55" width="65" height="22" rx="10" fill="#1565c0"/>
+    <text x="87" y="70" text-anchor="middle" font-size="8" fill="white">Hi! How are you?</text>
+    <rect x="36" y="85" width="55" height="22" rx="10" fill="#ddd"/>
+    <text x="63" y="100" text-anchor="middle" font-size="8" fill="#333">I'm great!</text>
+    <!-- photo icon highlighted -->
+    <circle cx="40" cy="200" r="12" fill="#1565c0" class="vis-pulse"/>
+    <text x="40" y="204" text-anchor="middle" font-size="13">📷</text>
+    <rect x="55" y="193" width="70" height="14" rx="6" fill="#eee" stroke="#ddd" stroke-width="1"/>
+    <text x="90" y="203" text-anchor="middle" font-size="8" fill="#999">Type a message...</text>
+    <circle cx="126" cy="200" r="10" fill="#1565c0"/>
+    <text x="126" y="204" text-anchor="middle" font-size="10" fill="white">↑</text>
+  `, 'Tap the 📷 camera icon, then send ↑'),
+
+  'photo_gallery_select': () => VISUALS.iphone_body(`
+    <!-- grid of photos -->
+    <rect x="30" y="45" width="45" height="40" rx="3" fill="#bbb"/>
+    <rect x="81" y="45" width="45" height="40" rx="3" fill="#aaa"/>
+    <rect x="30" y="91" width="45" height="40" rx="3" fill="#ccc"/>
+    <rect x="81" y="91" width="45" height="40" rx="3" fill="#b0c4de" stroke="#1565c0" stroke-width="3"/>
+    <!-- checkmark on selected -->
+    <circle cx="117" cy="98" r="9" fill="#1565c0"/>
+    <text x="117" y="102" text-anchor="middle" font-size="10" fill="white" font-weight="bold">✓</text>
+    <text x="80" y="175" text-anchor="middle" font-size="9" fill="#1565c0" font-weight="bold">Tap photo → blue ✓ appears</text>
+  `, 'Tap your photo — a blue checkmark appears'),
+
+  /* ══ WI-FI ══ */
+  'wifi_settings': () => VISUALS.iphone_body(`
+    <!-- settings rows -->
+    <rect x="30" y="45" width="100" height="18" rx="4" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="50" y="57" font-size="9" fill="#555">✈️  Airplane Mode</text>
+    <rect x="30" y="68" width="100" height="18" rx="4" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+    <text x="50" y="80" font-size="9" fill="#1565c0" font-weight="bold">📶  Wi-Fi</text>
+    <rect x="114" y="72" width="14" height="10" rx="5" fill="#34c759"/>
+    <rect x="30" y="91" width="100" height="18" rx="4" fill="#f5f5f5" stroke="#e0e0e0" stroke-width="1"/>
+    <text x="50" y="103" font-size="9" fill="#555">🔵  Bluetooth</text>
+  `, 'Tap Wi-Fi in Settings'),
+
+  'wifi_network_list': () => VISUALS.iphone_body(`
+    <text x="80" y="52" text-anchor="middle" font-size="10" fill="#1565c0" font-weight="bold">Wi-Fi</text>
+    <!-- network list -->
+    <rect x="30" y="60" width="100" height="16" rx="3" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+    <text x="36" y="71" font-size="8" fill="#1565c0" font-weight="bold">📶 MyHomeNetwork</text>
+    <text x="125" y="71" text-anchor="end" font-size="8" fill="#1565c0">✓</text>
+    <rect x="30" y="80" width="100" height="16" rx="3" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+    <text x="36" y="91" font-size="8" fill="#555">📶 Neighbour_5G</text>
+    <rect x="30" y="100" width="100" height="16" rx="3" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+    <text x="36" y="111" font-size="8" fill="#555">📶 BT-Hub-7A2</text>
+    <text x="80" y="140" text-anchor="middle" font-size="9" fill="#1565c0" font-weight="bold">Tap YOUR network name</text>
+  `, 'Find and tap your home network'),
+
+  'wifi_password': () => VISUALS.iphone_body(`
+    <text x="80" y="80" text-anchor="middle" font-size="10" fill="#333" font-weight="bold">Enter Password</text>
+    <rect x="30" y="90" width="100" height="20" rx="5" fill="white" stroke="#1565c0" stroke-width="2"/>
+    <text x="80" y="103" text-anchor="middle" font-size="9" fill="#999">••••••••••</text>
+    <rect x="50" y="120" width="60" height="18" rx="8" fill="#1565c0"/>
+    <text x="80" y="132" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Join</text>
+    <text x="80" y="170" text-anchor="middle" font-size="8" fill="#555">Check router sticker</text>
+    <text x="80" y="182" text-anchor="middle" font-size="8" fill="#555">for password 🔑</text>
+  `, 'Type password carefully, then tap Join'),
+
+  'wifi_windows': () => VISUALS.computer_screen(`
+    <!-- taskbar -->
+    <rect x="18" y="129" width="224" height="18" rx="0" fill="#2a2a3a"/>
+    <!-- wifi icon bottom right -->
+    <text x="215" y="143" text-anchor="middle" font-size="12">📶</text>
+    <!-- popup -->
+    <rect x="140" y="60" width="95" height="65" rx="6" fill="white" stroke="#1976d2" stroke-width="1.5"/>
+    <text x="187" y="75" text-anchor="middle" font-size="8" fill="#1976d2" font-weight="bold">Wi-Fi Networks</text>
+    <rect x="148" y="80" width="80" height="12" rx="3" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+    <text x="188" y="89" text-anchor="middle" font-size="7" fill="#1976d2" font-weight="bold">MyHomeNetwork ✓</text>
+    <rect x="148" y="96" width="80" height="10" rx="3" fill="#f5f5f5"/>
+    <text x="188" y="104" text-anchor="middle" font-size="7" fill="#555">Neighbour_5G</text>
+    <!-- arrow pointing to wifi icon -->
+    <line x1="215" y1="128" x2="215" y2="120" stroke="#f9a825" stroke-width="2" marker-end="url(#arr)"/>
+  `, 'Click Wi-Fi icon in taskbar bottom-right'),
+
+  'wifi_mac': () => VISUALS.mac_screen(`
+    <!-- menu bar wifi icon -->
+    <text x="200" y="22" text-anchor="middle" font-size="13">📶</text>
+    <!-- dropdown -->
+    <rect x="150" y="28" width="95" height="65" rx="6" fill="white" stroke="#6a1b9a" stroke-width="1.5"/>
+    <text x="197" y="42" text-anchor="middle" font-size="8" fill="#6a1b9a" font-weight="bold">Wi-Fi Networks</text>
+    <rect x="158" y="48" width="80" height="12" rx="3" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1"/>
+    <text x="198" y="57" text-anchor="middle" font-size="7" fill="#6a1b9a" font-weight="bold">MyHomeNetwork ✓</text>
+    <rect x="158" y="64" width="80" height="10" rx="3" fill="#f5f5f5"/>
+    <text x="198" y="72" text-anchor="middle" font-size="7" fill="#555">Neighbour_5G</text>
+  `, 'Click Wi-Fi icon in the menu bar (top-right)'),
+
+  /* ══ VOLUME ══ */
+  'volume_iphone_buttons': () => VISUALS.iphone_body(`
+    <!-- vol up highlighted -->
+    <rect x="14" y="78" width="6" height="22" rx="3" fill="#f9a825" stroke="#e65100" stroke-width="1" class="vis-pulse"/>
+    <text x="10" y="74" font-size="7" fill="#f9a825" font-weight="bold">▲ UP</text>
+    <!-- vol down -->
+    <rect x="14" y="106" width="6" height="18" rx="3" fill="#ccc" stroke="#aaa" stroke-width="1"/>
+    <text x="10" y="132" font-size="7" fill="#888">▼ DN</text>
+    <!-- mute switch -->
+    <rect x="14" y="58" width="5" height="14" rx="2.5" fill="#ff3b30" stroke="#c0392b" stroke-width="1"/>
+    <text x="24" y="65" font-size="7" fill="#ff3b30">Mute</text>
+    <!-- volume hud on screen -->
+    <rect x="55" y="100" width="50" height="40" rx="6" fill="white" stroke="#ddd" stroke-width="1" opacity="0.9"/>
+    <text x="80" y="116" text-anchor="middle" font-size="9">🔊</text>
+    <rect x="62" y="122" width="36" height="6" rx="3" fill="#ddd"/>
+    <rect x="62" y="122" width="28" height="6" rx="3" fill="#1565c0"/>
+  `, 'Top button = louder · Bottom = quieter · Switch = mute'),
+
+  'volume_slider_windows': () => VISUALS.computer_screen(`
+    <!-- taskbar -->
+    <rect x="18" y="129" width="224" height="18" rx="0" fill="#2a2a3a"/>
+    <text x="215" y="143" font-size="11">🔊</text>
+    <!-- popup volume -->
+    <rect x="160" y="65" width="75" height="60" rx="6" fill="white" stroke="#1976d2" stroke-width="1.5"/>
+    <text x="197" y="80" text-anchor="middle" font-size="8" fill="#333">🔊</text>
+    <!-- horizontal slider -->
+    <rect x="170" y="90" width="55" height="6" rx="3" fill="#ddd"/>
+    <rect x="170" y="90" width="38" height="6" rx="3" fill="#1976d2"/>
+    <circle cx="208" cy="93" r="6" fill="#1976d2" class="vis-pulse"/>
+    <text x="197" y="115" text-anchor="middle" font-size="8" fill="#555">70%</text>
+  `, 'Click speaker icon → drag the slider'),
+
+  /* ══ COPY & PASTE ══ */
+  'copy_select_text': () => VISUALS.iphone_body(`
+    <!-- text lines -->
+    <rect x="32" y="55" width="96" height="8" rx="3" fill="#ccc"/>
+    <rect x="32" y="70" width="80" height="8" rx="3" fill="url(#sel)" stroke="#1565c0" stroke-width="1"/>
+    <!-- selection highlight -->
+    <rect x="32" y="70" width="80" height="8" rx="3" fill="#1565c0" opacity="0.25"/>
+    <rect x="32" y="68" width="3" height="12" rx="1.5" fill="#1565c0"/>
+    <rect x="109" y="68" width="3" height="12" rx="1.5" fill="#1565c0"/>
+    <rect x="32" y="85" width="60" height="8" rx="3" fill="#ccc"/>
+    <!-- copy menu -->
+    <rect x="35" y="42" width="90" height="16" rx="6" fill="#1a1a2e"/>
+    <text x="50" y="53" font-size="8" fill="white">Cut</text>
+    <text x="71" y="53" font-size="8" fill="white" font-weight="bold">Copy</text>
+    <text x="93" y="53" font-size="8" fill="white">Paste</text>
+    <text x="80" y="170" text-anchor="middle" font-size="9" fill="#1565c0" font-weight="bold">Hold finger → select → Copy</text>
+  `, 'Hold on text to select, then tap Copy'),
+
+  'paste_text': () => VISUALS.iphone_body(`
+    <rect x="32" y="55" width="96" height="8" rx="3" fill="#ccc"/>
+    <rect x="32" y="70" width="50" height="8" rx="3" fill="#ccc"/>
+    <!-- cursor -->
+    <line x1="82" y1="66" x2="82" y2="82" stroke="#1565c0" stroke-width="2" class="vis-pulse"/>
+    <!-- paste menu -->
+    <rect x="40" y="42" width="55" height="16" rx="6" fill="#1a1a2e"/>
+    <text x="67" y="53" text-anchor="middle" font-size="8" fill="white" font-weight="bold">Paste</text>
+    <text x="80" y="170" text-anchor="middle" font-size="9" fill="#1565c0" font-weight="bold">Tap where you want → Paste</text>
+  `, 'Tap where you want text, then tap Paste'),
+
+  'copy_windows': () => VISUALS.computer_screen(`
+    <!-- document area -->
+    <rect x="28" y="28" width="204" height="100" rx="3" fill="white" stroke="#ddd" stroke-width="1"/>
+    <!-- text lines with selection -->
+    <rect x="38" y="40" width="180" height="10" rx="2" fill="#ccc"/>
+    <rect x="38" y="56" width="150" height="10" rx="2" fill="#1976d2" opacity="0.3" stroke="#1976d2" stroke-width="1"/>
+    <rect x="38" y="72" width="100" height="10" rx="2" fill="#1976d2" opacity="0.3" stroke="#1976d2" stroke-width="1"/>
+    <!-- keyboard shortcut -->
+    <rect x="50" y="112" width="35" height="18" rx="4" fill="#1976d2"/>
+    <text x="67" y="124" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Ctrl</text>
+    <text x="93" y="124" text-anchor="middle" font-size="12" fill="#333">+</text>
+    <rect x="103" y="112" width="22" height="18" rx="4" fill="#1976d2" class="vis-pulse"/>
+    <text x="114" y="124" text-anchor="middle" font-size="10" fill="white" font-weight="bold">C</text>
+    <text x="160" y="124" text-anchor="middle" font-size="9" fill="#555">= Copy</text>
+  `, 'Select text, then press Ctrl + C to copy'),
+
+  /* ══ BRIGHTNESS ══ */
+  'brightness_control_center': () => VISUALS.iphone_body(`
+    <!-- control center panel -->
+    <rect x="26" y="30" width="108" height="210" rx="6" fill="#1a1a2e" opacity="0.85"/>
+    <!-- brightness slider (vertical) -->
+    <rect x="55" y="55" width="20" height="110" rx="10" fill="#444"/>
+    <rect x="55" y="105" width="20" height="60" rx="10" fill="#f9a825"/>
+    <text x="65" y="52" text-anchor="middle" font-size="11">☀️</text>
+    <circle cx="65" cy="105" r="11" fill="#f9a825" class="vis-pulse" stroke="white" stroke-width="2"/>
+    <text x="95" y="85" font-size="8" fill="white">Drag</text>
+    <text x="95" y="97" font-size="8" fill="white">UP for</text>
+    <text x="95" y="109" font-size="8" fill="white">brighter</text>
+    <!-- swipe from top arrow -->
+    <text x="80" y="180" text-anchor="middle" font-size="8" fill="#aaa">Swipe ↓ from top-right</text>
+  `, 'Swipe from top-right → drag sun slider up/down'),
+
+  'brightness_windows': () => VISUALS.computer_screen(`
+    <rect x="28" y="28" width="204" height="100" rx="3" fill="white"/>
+    <text x="130" y="50" text-anchor="middle" font-size="10" fill="#333" font-weight="bold">Settings → Display</text>
+    <text x="50" y="72" font-size="9" fill="#555">Brightness</text>
+    <rect x="90" y="66" width="110" height="8" rx="4" fill="#ddd"/>
+    <rect x="90" y="66" width="72" height="8" rx="4" fill="#1976d2"/>
+    <circle cx="162" cy="70" r="7" fill="#1976d2" class="vis-pulse" stroke="white" stroke-width="2"/>
+    <text x="55" y="92" font-size="9" fill="#555">☁️ Dim</text>
+    <text x="195" y="92" font-size="9" fill="#555">Bright ☀️</text>
+  `, 'Settings → Display → drag brightness slider'),
+
+  /* ══ BATTERY ══ */
+  'battery_indicator': () => VISUALS.iphone_body(`
+    <!-- battery icon top right of phone screen -->
+    <rect x="96" y="34" width="24" height="11" rx="2" fill="white" stroke="#333" stroke-width="1.5"/>
+    <rect x="119" y="37" width="3" height="5" rx="1" fill="#333"/>
+    <rect x="98" y="36" width="16" height="7" rx="1" fill="#34c759"/>
+    <text x="108" y="43" text-anchor="middle" font-size="5" fill="white" font-weight="bold">82%</text>
+    <!-- info panel -->
+    <rect x="35" y="80" width="90" height="80" rx="8" fill="white" stroke="#ddd" stroke-width="1"/>
+    <text x="80" y="100" text-anchor="middle" font-size="9" fill="#333" font-weight="bold">Battery</text>
+    <rect x="48" y="108" width="64" height="14" rx="7" fill="#34c759"/>
+    <text x="80" y="118" text-anchor="middle" font-size="9" fill="white" font-weight="bold">82% — Good</text>
+    <rect x="48" y="128" width="64" height="10" rx="5" fill="#ff3b30"/>
+    <text x="80" y="136" text-anchor="middle" font-size="8" fill="white">Below 20% → charge!</text>
+  `, 'Battery shown top-right of screen'),
+
+  /* ══ FACETIME / VIDEO CALL ══ */
+  'facetime_calling': () => VISUALS.iphone_body(`
+    <!-- green facetime app icon -->
+    <rect x="52" y="48" width="56" height="56" rx="14" fill="#34c759"/>
+    <text x="80" y="82" text-anchor="middle" font-size="28">📹</text>
+    <text x="80" y="116" text-anchor="middle" font-size="9" fill="#34c759" font-weight="bold">FaceTime</text>
+    <!-- ringing indicator -->
+    <text x="80" y="160" text-anchor="middle" font-size="9" fill="#555" class="vis-ring">📲 Ringing...</text>
+    <text x="80" y="176" text-anchor="middle" font-size="8" fill="#555">They'll see your call</text>
+  `, 'Tap FaceTime → choose Video'),
+
+  'facetime_active': () => VISUALS.iphone_body(`
+    <!-- main video feed -->
+    <rect x="26" y="30" width="108" height="210" rx="6" fill="#2a2a4a"/>
+    <!-- their face (big) -->
+    <rect x="32" y="36" width="96" height="140" rx="5" fill="#3a4a6a"/>
+    <circle cx="80" cy="90" r="28" fill="#5a7a9a"/>
+    <text x="80" y="96" text-anchor="middle" font-size="22">👵</text>
+    <text x="80" y="125" text-anchor="middle" font-size="8" fill="#aaa">Grandma</text>
+    <!-- your face (small corner) -->
+    <rect x="95" y="38" width="28" height="38" rx="4" fill="#4a6a4a" stroke="white" stroke-width="1.5"/>
+    <text x="109" y="62" text-anchor="middle" font-size="16">😊</text>
+    <!-- end call button -->
+    <circle cx="80" cy="218" r="13" fill="#ff3b30" class="vis-pulse"/>
+    <text x="80" y="222" text-anchor="middle" font-size="13">📵</text>
+  `, 'You see their face — tap red button to end'),
+
+  'zoom_join': () => VISUALS.computer_screen(`
+    <!-- zoom window -->
+    <rect x="28" y="28" width="204" height="100" rx="6" fill="#1877f2" opacity="0.1"/>
+    <rect x="28" y="28" width="204" height="24" rx="6" fill="#1877f2"/>
+    <text x="130" y="43" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Zoom — Join a Meeting</text>
+    <!-- meeting ID box -->
+    <text x="55" y="70" font-size="9" fill="#333">Meeting ID:</text>
+    <rect x="55" y="74" width="100" height="16" rx="4" fill="white" stroke="#1877f2" stroke-width="1.5"/>
+    <text x="105" y="85" text-anchor="middle" font-size="9" fill="#555">123 456 7890</text>
+    <!-- join button -->
+    <rect x="85" y="100" width="60" height="18" rx="8" fill="#1877f2" class="vis-pulse"/>
+    <text x="115" y="112" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Join</text>
+  `, 'Enter Meeting ID and click Join'),
+
+  'zoom_video_grid': () => VISUALS.computer_screen(`
+    <rect x="18" y="18" width="224" height="129" rx="4" fill="#1a1a2e"/>
+    <!-- 4 participant boxes -->
+    <rect x="22" y="22" width="106" height="58" rx="4" fill="#2a3a5a"/>
+    <text x="75" y="56" text-anchor="middle" font-size="22">👴</text>
+    <text x="75" y="68" text-anchor="middle" font-size="7" fill="white">You</text>
+    <rect x="134" y="22" width="106" height="58" rx="4" fill="#3a2a5a"/>
+    <text x="187" y="56" text-anchor="middle" font-size="22">👩</text>
+    <text x="187" y="68" text-anchor="middle" font-size="7" fill="white">Sarah</text>
+    <rect x="22" y="86" width="106" height="57" rx="4" fill="#2a4a3a"/>
+    <text x="75" y="118" text-anchor="middle" font-size="22">👦</text>
+    <text x="75" y="131" text-anchor="middle" font-size="7" fill="white">Tom</text>
+    <rect x="134" y="86" width="106" height="57" rx="4" fill="#4a3a2a"/>
+    <text x="187" y="118" text-anchor="middle" font-size="22">👧</text>
+    <text x="187" y="131" text-anchor="middle" font-size="7" fill="white">Emma</text>
+    <!-- toolbar -->
+    <rect x="18" y="140" width="224" height="7" fill="#111"/>
+    <text x="50" y="146" font-size="6" fill="white">🎤 Mute</text>
+    <text x="110" y="146" font-size="6" fill="white">📹 Video</text>
+    <text x="190" y="146" font-size="6" fill="#ff5f57">✕ Leave</text>
+  `, 'Everyone appears in boxes — click Mute when not speaking'),
+
+  /* ══ NOTIFICATIONS ══ */
+  'notifications_settings': () => VISUALS.iphone_body(`
+    <text x="80" y="52" text-anchor="middle" font-size="10" fill="#333" font-weight="bold">Notifications</text>
+    <!-- app rows -->
+    <rect x="30" y="62" width="100" height="16" rx="3" fill="#f5f5f5" stroke="#eee" stroke-width="1"/>
+    <text x="38" y="73" font-size="8" fill="#555">📰 News App</text>
+    <rect x="108" y="65" width="18" height="10" rx="5" fill="#34c759"/>
+    <rect x="30" y="83" width="100" height="16" rx="3" fill="#e3f2fd" stroke="#1565c0" stroke-width="1.5"/>
+    <text x="38" y="94" font-size="8" fill="#1565c0" font-weight="bold">🎮 Game App</text>
+    <!-- toggle being turned off -->
+    <rect x="108" y="86" width="18" height="10" rx="5" fill="#ccc" class="vis-pulse"/>
+    <circle cx="112" cy="91" r="4" fill="white"/>
+    <text x="80" y="145" text-anchor="middle" font-size="8" fill="#1565c0" font-weight="bold">Tap app → switch to grey = off</text>
+  `, 'Tap app name → turn off "Allow Notifications"'),
+
+  /* ══ DOWNLOAD APP ══ */
+  'app_store': () => VISUALS.iphone_body(`
+    <rect x="52" y="48" width="56" height="56" rx="14" fill="#1565c0"/>
+    <text x="80" y="84" text-anchor="middle" font-size="28">🛍️</text>
+    <text x="80" y="114" text-anchor="middle" font-size="8" fill="#1565c0" font-weight="bold">App Store</text>
+    <!-- search bar -->
+    <rect x="30" y="125" width="100" height="16" rx="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+    <text x="80" y="136" text-anchor="middle" font-size="8" fill="#999">🔍 Search apps...</text>
+    <!-- get button -->
+    <rect x="55" y="155" width="50" height="18" rx="9" fill="#1565c0" class="vis-pulse"/>
+    <text x="80" y="167" text-anchor="middle" font-size="9" fill="white" font-weight="bold">GET</text>
+  `, 'Search, then tap GET to download free apps'),
+
+  'play_store': () => VISUALS.android_body(`
+    <rect x="52" y="48" width="56" height="56" rx="14" fill="white" stroke="#eee" stroke-width="1"/>
+    <text x="80" y="84" text-anchor="middle" font-size="28">▶️</text>
+    <text x="80" y="114" text-anchor="middle" font-size="8" fill="#2e7d32" font-weight="bold">Play Store</text>
+    <rect x="30" y="125" width="100" height="16" rx="8" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+    <text x="80" y="136" text-anchor="middle" font-size="8" fill="#999">🔍 Search apps...</text>
+    <rect x="50" y="155" width="60" height="18" rx="5" fill="#2e7d32" class="vis-pulse"/>
+    <text x="80" y="167" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Install</text>
+  `, 'Tap Install — free apps cost nothing'),
+
+  /* ══ BLUETOOTH ══ */
+  'bluetooth_pairing': () => VISUALS.iphone_body(`
+    <!-- bluetooth symbol -->
+    <text x="80" y="70" text-anchor="middle" font-size="36" class="vis-pulse">🔵</text>
+    <text x="80" y="95" text-anchor="middle" font-size="10" fill="#1565c0" font-weight="bold">Bluetooth ON</text>
+    <!-- headphone icon -->
+    <text x="80" y="130" text-anchor="middle" font-size="28">🎧</text>
+    <!-- connecting waves -->
+    <path d="M55 120 Q40 108 55 96" stroke="#1565c0" stroke-width="2" fill="none" opacity="0.5" class="vis-ring"/>
+    <path d="M105 120 Q120 108 105 96" stroke="#1565c0" stroke-width="2" fill="none" opacity="0.5" class="vis-ring"/>
+    <text x="80" y="165" text-anchor="middle" font-size="9" fill="#1565c0" font-weight="bold">Device appears in list</text>
+    <text x="80" y="178" text-anchor="middle" font-size="8" fill="#555">Tap name → "Connected"</text>
+  `, 'Headphones appear in list — tap to connect'),
+
+  /* ══ STORAGE ══ */
+  'storage_bar': () => VISUALS.iphone_body(`
+    <text x="80" y="60" text-anchor="middle" font-size="9" fill="#333" font-weight="bold">iPhone Storage</text>
+    <!-- storage bar -->
+    <rect x="30" y="70" width="100" height="16" rx="4" fill="#eee"/>
+    <rect x="30" y="70" width="55" height="16" rx="4" fill="#ff9500"/>
+    <rect x="85" y="70" width="22" height="16" fill="#34c759"/>
+    <rect x="107" y="70" width="23" height="16" rx="4" fill="#eee" stroke="#ddd" stroke-width="1"/>
+    <text x="80" y="100" text-anchor="middle" font-size="8" fill="#555">45 GB used of 64 GB</text>
+    <!-- delete app row -->
+    <rect x="30" y="115" width="100" height="18" rx="4" fill="#fff0f0" stroke="#ffcdd2" stroke-width="1"/>
+    <text x="36" y="127" font-size="8" fill="#555">🎮 Game — 2.1 GB</text>
+    <text x="124" y="127" text-anchor="end" font-size="8" fill="#ff3b30" font-weight="bold">Delete</text>
+    <text x="80" y="172" text-anchor="middle" font-size="8" fill="#555">Settings → General → iPhone Storage</text>
+  `, 'See what\'s using space → delete unused apps'),
+
+  /* ══ ALARM ══ */
+  'alarm_clock': () => VISUALS.android_body(`
+    <!-- clock app icon -->
+    <rect x="52" y="42" width="56" height="56" rx="14" fill="#1a237e"/>
+    <circle cx="80" cy="70" r="22" fill="white" stroke="#ddd" stroke-width="1"/>
+    <line x1="80" y1="70" x2="80" y2="53" stroke="#1a237e" stroke-width="2.5" stroke-linecap="round"/>
+    <line x1="80" y1="70" x2="92" y2="70" stroke="#1a237e" stroke-width="2" stroke-linecap="round"/>
+    <circle cx="80" cy="70" r="3" fill="#1a237e"/>
+    <text x="80" y="114" text-anchor="middle" font-size="8" fill="#2e7d32" font-weight="bold">Clock App</text>
+    <!-- alarm time -->
+    <rect x="38" y="130" width="84" height="30" rx="8" fill="white" stroke="#2e7d32" stroke-width="1.5"/>
+    <text x="80" y="148" text-anchor="middle" font-size="16" fill="#1a237e" font-weight="bold">7:30 AM</text>
+    <text x="80" y="180" text-anchor="middle" font-size="8" fill="#2e7d32" font-weight="bold">Toggle ON (green) to activate</text>
+  `, 'Set time, pick AM/PM, then save'),
+
+  /* ══ WEB BROWSER ══ */
+  'browser_address_bar': () => VISUALS.computer_screen(`
+    <rect x="28" y="28" width="204" height="100" rx="3" fill="white"/>
+    <!-- browser chrome -->
+    <rect x="28" y="28" width="204" height="22" rx="3" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+    <!-- back/forward -->
+    <text x="40" y="42" font-size="11" fill="#555">←</text>
+    <text x="56" y="42" font-size="11" fill="#bbb">→</text>
+    <!-- address bar highlighted -->
+    <rect x="68" y="32" width="144" height="14" rx="6" fill="white" stroke="#1976d2" stroke-width="2"/>
+    <text x="140" y="42" text-anchor="middle" font-size="8" fill="#1976d2" font-weight="bold">www.google.com</text>
+    <!-- cursor in bar -->
+    <line x1="186" y1="34" x2="186" y2="44" stroke="#1976d2" stroke-width="1.5" class="vis-pulse"/>
+    <!-- page content -->
+    <rect x="38" y="58" width="160" height="8" rx="2" fill="#eee"/>
+    <rect x="38" y="72" width="130" height="8" rx="2" fill="#eee"/>
+    <rect x="38" y="86" width="145" height="8" rx="2" fill="#eee"/>
+    <text x="130" y="122" text-anchor="middle" font-size="9" fill="#555">Click bar → type address → press Enter</text>
+  `, 'Click the address bar at the top and type'),
+
+  /* ══ FILE EXPLORER ══ */
+  'file_explorer': () => VISUALS.computer_screen(`
+    <rect x="28" y="28" width="204" height="100" rx="3" fill="white" stroke="#ddd" stroke-width="1"/>
+    <!-- sidebar -->
+    <rect x="28" y="28" width="60" height="100" rx="3" fill="#f5f5f5" stroke="#ddd" stroke-width="1"/>
+    <text x="58" y="50" text-anchor="middle" font-size="8" fill="#1976d2" font-weight="bold">📄 Documents</text>
+    <text x="58" y="65" text-anchor="middle" font-size="8" fill="#555">🖼️ Pictures</text>
+    <text x="58" y="80" text-anchor="middle" font-size="8" fill="#555">⬇️ Downloads</text>
+    <text x="58" y="95" text-anchor="middle" font-size="8" fill="#555">🖥️ Desktop</text>
+    <!-- file list -->
+    <rect x="96" y="38" width="128" height="14" rx="3" fill="#e3f2fd" stroke="#1976d2" stroke-width="1"/>
+    <text x="102" y="48" font-size="8" fill="#1976d2">📄 Letter to Doctor.docx</text>
+    <rect x="96" y="56" width="128" height="14" rx="3" fill="#f5f5f5"/>
+    <text x="102" y="66" font-size="8" fill="#555">📄 Budget 2024.xlsx</text>
+    <rect x="96" y="74" width="128" height="14" rx="3" fill="#f5f5f5"/>
+    <text x="102" y="84" font-size="8" fill="#555">🖼️ Holiday photo.jpg</text>
+    <text x="160" y="122" text-anchor="middle" font-size="8" fill="#555">Double-click a file to open it</text>
+  `, 'Find your file in the left panel, double-click to open'),
+
+  'finder_mac': () => VISUALS.mac_screen(`
+    <rect x="18" y="28" width="224" height="120" rx="3" fill="white"/>
+    <!-- sidebar -->
+    <rect x="18" y="28" width="65" height="120" rx="3" fill="#f0eaf8" stroke="#d0c0e8" stroke-width="1"/>
+    <text x="50" y="48" text-anchor="middle" font-size="8" fill="#6a1b9a" font-weight="bold">📄 Documents</text>
+    <text x="50" y="63" text-anchor="middle" font-size="8" fill="#555">🖼️ Pictures</text>
+    <text x="50" y="78" text-anchor="middle" font-size="8" fill="#555">⬇️ Downloads</text>
+    <text x="50" y="93" text-anchor="middle" font-size="8" fill="#555">🖥️ Desktop</text>
+    <!-- files -->
+    <rect x="90" y="38" width="140" height="14" rx="3" fill="#f3e5f5" stroke="#6a1b9a" stroke-width="1.5"/>
+    <text x="96" y="48" font-size="8" fill="#6a1b9a">📄 My Letter.pages</text>
+    <rect x="90" y="56" width="140" height="14" rx="3" fill="#f5f5f5"/>
+    <text x="96" y="66" font-size="8" fill="#555">🖼️ Grandkids.jpg</text>
+    <rect x="90" y="74" width="140" height="14" rx="3" fill="#f5f5f5"/>
+    <text x="96" y="84" font-size="8" fill="#555">📄 Recipe.pdf</text>
+    <text x="160" y="140" text-anchor="middle" font-size="8" fill="#555">Double-click a file to open it</text>
+  `, 'Click folder in left panel, double-click file to open'),
+
+  /* ══ PRINT ══ */
+  'print_dialog': () => VISUALS.computer_screen(`
+    <rect x="28" y="28" width="204" height="100" rx="3" fill="white"/>
+    <!-- print dialog box -->
+    <rect x="45" y="32" width="170" height="92" rx="6" fill="#f5f5f5" stroke="#1976d2" stroke-width="1.5"/>
+    <text x="130" y="48" text-anchor="middle" font-size="9" fill="#1976d2" font-weight="bold">Print</text>
+    <text x="58" y="63" font-size="8" fill="#555">Printer:</text>
+    <rect x="90" y="56" width="115" height="12" rx="3" fill="white" stroke="#bbb" stroke-width="1"/>
+    <text x="147" y="65" text-anchor="middle" font-size="7" fill="#333">HP DeskJet 2700 ✓</text>
+    <text x="58" y="82" font-size="8" fill="#555">Copies:</text>
+    <rect x="90" y="75" width="30" height="12" rx="3" fill="white" stroke="#bbb" stroke-width="1"/>
+    <text x="105" y="84" text-anchor="middle" font-size="8" fill="#333">1</text>
+    <!-- print button -->
+    <rect x="155" y="102" width="48" height="16" rx="6" fill="#1976d2" class="vis-pulse"/>
+    <text x="179" y="113" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Print</text>
+    <text x="130" y="140" text-anchor="middle" font-size="8" fill="#555">Ctrl+P to open this dialog</text>
+  `, 'Press Ctrl+P → choose printer → click Print'),
+
+  'print_mac': () => VISUALS.mac_screen(`
+    <rect x="18" y="28" width="224" height="120" rx="3" fill="white"/>
+    <rect x="45" y="32" width="165" height="90" rx="6" fill="#f5f5f5" stroke="#6a1b9a" stroke-width="1.5"/>
+    <text x="127" y="48" text-anchor="middle" font-size="9" fill="#6a1b9a" font-weight="bold">Print</text>
+    <text x="58" y="63" font-size="8" fill="#555">Printer:</text>
+    <rect x="90" y="56" width="110" height="12" rx="3" fill="white" stroke="#bbb" stroke-width="1"/>
+    <text x="145" y="65" text-anchor="middle" font-size="7" fill="#333">HP DeskJet ✓</text>
+    <text x="58" y="82" font-size="8" fill="#555">Copies:</text>
+    <rect x="90" y="75" width="30" height="12" rx="3" fill="white" stroke="#bbb" stroke-width="1"/>
+    <text x="105" y="84" text-anchor="middle" font-size="8" fill="#333">1</text>
+    <rect x="148" y="99" width="48" height="16" rx="6" fill="#6a1b9a" class="vis-pulse"/>
+    <text x="172" y="110" text-anchor="middle" font-size="9" fill="white" font-weight="bold">Print</text>
+    <text x="127" y="140" text-anchor="middle" font-size="8" fill="#555">⌘+P to open → click Print</text>
+  `, 'Press ⌘+P → choose printer → click Print'),
+
+  'printer_icon': () => `
+    <svg viewBox="0 0 200 140" width="200" xmlns="http://www.w3.org/2000/svg">
+      <!-- printer body -->
+      <rect x="30" y="50" width="140" height="60" rx="10" fill="#555"/>
+      <rect x="45" y="30" width="110" height="30" rx="5" fill="#777"/>
+      <!-- paper going in -->
+      <rect x="60" y="20" width="80" height="18" rx="2" fill="white" stroke="#ddd" stroke-width="1" class="vis-bounce"/>
+      <!-- paper coming out -->
+      <rect x="60" y="102" width="80" height="22" rx="2" fill="white" stroke="#ddd" stroke-width="1" class="vis-bounce"/>
+      <line x1="68" y1="110" x2="132" y2="110" stroke="#ddd" stroke-width="1"/>
+      <line x1="68" y1="116" x2="110" y2="116" stroke="#ddd" stroke-width="1"/>
+      <!-- light -->
+      <circle cx="148" cy="70" r="7" fill="#34c759" class="vis-pulse"/>
+      <text x="100" y="135" text-anchor="middle" font-size="10" fill="#555" font-weight="bold">Printer ready 🖨️</text>
+    </svg>
+    <div class="vis-label">Make sure printer is on and has paper</div>`,
+
+  /* ══ PASSWORD ══ */
+  'password_strength': () => `
+    <svg viewBox="0 0 240 160" width="230" xmlns="http://www.w3.org/2000/svg">
+      <!-- weak -->
+      <rect x="20" y="20" width="200" height="28" rx="6" fill="#ffebee" stroke="#ef9a9a" stroke-width="1"/>
+      <text x="30" y="38" font-size="11" fill="#c62828">❌ "password123" — Too easy to guess!</text>
+      <!-- medium -->
+      <rect x="20" y="56" width="200" height="28" rx="6" fill="#fff8e1" stroke="#ffe082" stroke-width="1"/>
+      <text x="30" y="74" font-size="11" fill="#f57f17">⚠️ "Fluffy2019" — Getting better</text>
+      <!-- strong -->
+      <rect x="20" y="92" width="200" height="28" rx="6" fill="#e8f5e9" stroke="#a5d6a7" stroke-width="1" class="vis-pulse"/>
+      <text x="30" y="110" font-size="11" fill="#1b5e20" font-weight="bold">✅ "McFlt0F!" — Strong! 🔒</text>
+      <text x="120" y="148" text-anchor="middle" font-size="10" fill="#555">Mix letters, numbers &amp; symbols</text>
+    </svg>
+    <div class="vis-label">Longer + mixed characters = much stronger</div>`,
+
+  /* ══ RESTART / SHUTDOWN ══ */
+  'power_menu_windows': () => VISUALS.computer_screen(`
+    <rect x="18" y="18" width="224" height="129" rx="4" fill="#e8e8f0"/>
+    <!-- start menu -->
+    <rect x="18" y="80" width="100" height="67" rx="0" fill="#2a2a3a"/>
+    <!-- power icon highlighted -->
+    <rect x="22" y="118" width="90" height="24" rx="4" fill="#ff3b30" opacity="0.2" class="vis-pulse"/>
+    <text x="34" y="133" font-size="10">⏻</text>
+    <text x="50" y="133" font-size="9" fill="white" font-weight="bold">Power</text>
+    <!-- submenu -->
+    <rect x="118" y="100" width="90" height="45" rx="4" fill="#3a3a4a" stroke="#555" stroke-width="1"/>
+    <text x="163" y="116" text-anchor="middle" font-size="8" fill="white">💤 Sleep</text>
+    <text x="163" y="128" text-anchor="middle" font-size="8" fill="white">🔄 Restart</text>
+    <text x="163" y="140" text-anchor="middle" font-size="8" fill="#ff5f57">⏻ Shut down</text>
+    <text x="130" y="165" text-anchor="middle" font-size="8" fill="#555">Start → Power icon → choose option</text>
+  `, 'Click Start → Power → choose Shut down or Restart'),
+
+  'power_menu_mac': () => VISUALS.mac_screen(`
+    <!-- apple menu open -->
+    <rect x="18" y="28" width="80" height="80" rx="4" fill="white" stroke="#ccc" stroke-width="1"/>
+    <text x="28" y="43" font-size="9" fill="#6a1b9a" font-weight="bold">🍎 Apple</text>
+    <line x1="20" y1="48" x2="96" y2="48" stroke="#eee" stroke-width="1"/>
+    <text x="28" y="62" font-size="8" fill="#555">About This Mac</text>
+    <line x1="20" y1="67" x2="96" y2="67" stroke="#eee" stroke-width="1"/>
+    <text x="28" y="80" font-size="8" fill="#555">💤 Sleep</text>
+    <text x="28" y="93" font-size="8" fill="#555">🔄 Restart…</text>
+    <rect x="18" y="96" width="80" height="12" rx="2" fill="#f3e5f5" class="vis-pulse"/>
+    <text x="28" y="105" font-size="8" fill="#6a1b9a" font-weight="bold">⏻ Shut Down…</text>
+  `, 'Click 🍎 Apple menu → Restart or Shut Down'),
+
+  /* ── FALLBACK ── */
+  'default': (label='') => `
+    <svg viewBox="0 0 160 80" width="150" xmlns="http://www.w3.org/2000/svg">
+      <rect x="10" y="10" width="140" height="60" rx="10" fill="#e8f0fe" stroke="#c5d5f0" stroke-width="1.5"/>
+      <text x="80" y="46" text-anchor="middle" font-size="28">👆</text>
+    </svg>
+    ${label ? `<div class="vis-label">${label}</div>` : ''}`
+};
+
+/* ══════════════════════════════════════
+   MAP: "Device|Topic Title" → array of visual keys per step
+   Prefix keys with device name to avoid collisions on shared titles.
+══════════════════════════════════════ */
+const STEP_VISUALS = {
+
+  // ══ iPHONE ══
+  'Iphone|Take a Screenshot':                    ['screenshot_buttons_iphone','screenshot_buttons_iphone','screenshot_flash','screenshot_flash','screenshot_buttons_iphone'],
+  'Iphone|Send a Photo in a Text Message':       ['photo_messages_app','photo_messages_app','photo_messages_app','photo_gallery_select','photo_gallery_select','photo_messages_app'],
+  'Iphone|Connect to Wi-Fi':                    ['wifi_settings','wifi_settings','wifi_network_list','wifi_network_list','wifi_password','wifi_settings'],
+  'Iphone|Adjust the Volume':                   ['volume_iphone_buttons','volume_iphone_buttons','volume_iphone_buttons','volume_iphone_buttons'],
+  'Iphone|Copy and Paste Text':                 ['copy_select_text','copy_select_text','copy_select_text','copy_select_text','copy_select_text','paste_text','paste_text'],
+  'Iphone|Change Screen Brightness':            ['brightness_control_center','brightness_control_center','brightness_control_center','brightness_control_center'],
+  'Iphone|Check Your Battery Level':            ['battery_indicator','battery_indicator','battery_indicator','battery_indicator'],
+  'Iphone|Make a FaceTime Video Call':          ['facetime_calling','facetime_calling','facetime_calling','facetime_calling','facetime_active','facetime_active'],
+  'Iphone|Turn Off Notifications for an App':   ['wifi_settings','notifications_settings','notifications_settings','notifications_settings','notifications_settings'],
+  'Iphone|Download a New App':                  ['app_store','app_store','app_store','app_store','app_store','app_store'],
+  'Iphone|Connect Bluetooth Headphones or Speaker': ['bluetooth_pairing','wifi_settings','bluetooth_pairing','bluetooth_pairing','bluetooth_pairing','bluetooth_pairing'],
+  'Iphone|Free Up Storage Space':               ['storage_bar','storage_bar','storage_bar','storage_bar','storage_bar'],
+
+  // ══ ANDROID ══
+  'Android|Take a Screenshot':                      ['screenshot_android_buttons','screenshot_android_buttons','screenshot_android_buttons','screenshot_android_buttons'],
+  'Android|Send a Photo in a Text Message':         ['photo_messages_app','photo_messages_app','photo_messages_app','photo_gallery_select','photo_gallery_select','photo_messages_app'],
+  'Android|Connect to Wi-Fi':                       ['wifi_settings','wifi_settings','wifi_network_list','wifi_network_list','wifi_password','wifi_settings'],
+  'Android|Adjust the Volume':                      ['volume_iphone_buttons','volume_iphone_buttons','volume_iphone_buttons','volume_iphone_buttons'],
+  'Android|Copy and Paste Text':                    ['copy_select_text','copy_select_text','copy_select_text','copy_select_text','paste_text','paste_text'],
+  'Android|Change Screen Brightness':               ['brightness_control_center','brightness_control_center','brightness_control_center','brightness_windows'],
+  'Android|Check Your Battery Level':               ['battery_indicator','battery_indicator','battery_indicator','battery_indicator'],
+  'Android|Make a Video Call with Google Meet or Duo': ['facetime_calling','facetime_calling','zoom_join','zoom_join','facetime_active','facetime_active','facetime_active'],
+  'Android|Turn Off Notifications for an App':      ['wifi_settings','notifications_settings','notifications_settings','notifications_settings','notifications_settings'],
+  'Android|Download a New App from the Play Store': ['play_store','play_store','play_store','play_store','play_store','play_store'],
+  'Android|Connect Bluetooth Headphones or a Speaker': ['bluetooth_pairing','wifi_settings','bluetooth_pairing','bluetooth_pairing','bluetooth_pairing','bluetooth_pairing'],
+  'Android|Set an Alarm':                           ['alarm_clock','alarm_clock','alarm_clock','alarm_clock','alarm_clock','alarm_clock'],
+
+  // ══ WINDOWS ══
+  'Windows|Take a Screenshot':                  ['screenshot_windows_keys','screenshot_windows_keys','screenshot_windows_keys','screenshot_windows_keys','screenshot_windows_keys'],
+  'Windows|Attach a Photo to an Email':         ['browser_address_bar','browser_address_bar','browser_address_bar','file_explorer','file_explorer','print_dialog'],
+  'Windows|Connect to Wi-Fi':                   ['wifi_windows','wifi_windows','wifi_windows','wifi_windows','wifi_windows','wifi_windows'],
+  'Windows|Adjust the Volume':                  ['volume_slider_windows','volume_slider_windows','volume_slider_windows','volume_slider_windows'],
+  'Windows|Copy and Paste Text':                ['copy_select_text','copy_windows','copy_windows','copy_windows','paste_text'],
+  'Windows|Change Screen Brightness':           ['wifi_windows','brightness_windows','brightness_windows','brightness_windows'],
+  'Windows|Restart or Shut Down Your Computer': ['power_menu_windows','power_menu_windows','power_menu_windows','power_menu_windows'],
+  'Windows|Join a Zoom Video Call':             ['zoom_join','zoom_join','zoom_join','zoom_join','zoom_video_grid','zoom_video_grid','zoom_video_grid'],
+  'Windows|Set Up and Use a Web Browser':       ['browser_address_bar','browser_address_bar','browser_address_bar','browser_address_bar','browser_address_bar','browser_address_bar'],
+  'Windows|Find and Open a File':               ['file_explorer','file_explorer','file_explorer','file_explorer','file_explorer'],
+  'Windows|Create a Strong Password':           ['password_strength','password_strength','password_strength','password_strength','password_strength','password_strength'],
+  'Windows|Print a Document or Web Page':       ['printer_icon','print_dialog','print_dialog','print_dialog','print_dialog','print_dialog'],
+
+  // ══ MAC ══
+  'Mac|Take a Screenshot':                 ['screenshot_mac_keys','screenshot_mac_keys','screenshot_mac_keys','screenshot_mac_keys'],
+  'Mac|Attach a Photo to an Email':        ['browser_address_bar','browser_address_bar','browser_address_bar','finder_mac','finder_mac','print_mac'],
+  'Mac|Connect to Wi-Fi':                  ['wifi_mac','wifi_mac','wifi_mac','wifi_mac','wifi_password'],
+  'Mac|Adjust the Volume':                 ['volume_slider_windows','volume_slider_windows','volume_slider_windows','volume_slider_windows'],
+  'Mac|Copy and Paste Text':               ['copy_select_text','copy_windows','copy_windows','paste_text','paste_text'],
+  'Mac|Change Screen Brightness':          ['volume_slider_windows','wifi_mac','brightness_windows','brightness_windows'],
+  'Mac|Restart or Shut Down Your Mac':     ['power_menu_mac','power_menu_mac','power_menu_mac','power_menu_mac'],
+  'Mac|Join a Zoom Video Call':            ['zoom_join','zoom_join','zoom_join','zoom_join','zoom_video_grid','zoom_video_grid','zoom_video_grid'],
+  'Mac|Browse the Web with Safari':        ['browser_address_bar','browser_address_bar','browser_address_bar','browser_address_bar','browser_address_bar','browser_address_bar'],
+  'Mac|Find and Open a File':              ['finder_mac','finder_mac','finder_mac','finder_mac','finder_mac'],
+  'Mac|Print a Document or Web Page':      ['printer_icon','print_mac','print_mac','print_mac','print_mac'],
+  'Mac|Use FaceTime to Video Call':        ['facetime_calling','facetime_calling','facetime_calling','facetime_calling','facetime_active','facetime_active'],
+};
+
+function getVisual(topicTitle, stepIndex) {
+  const devicePrefix = currentDevice ? (currentDevice.charAt(0).toUpperCase() + currentDevice.slice(1)) : '';
+  const prefixedKey = devicePrefix + '|' + topicTitle;
+  const keys = STEP_VISUALS[prefixedKey] || STEP_VISUALS[topicTitle];
+  if (!keys || !keys[stepIndex]) return null;
+  const key = keys[stepIndex];
+  const fn = VISUALS[key];
+  if (!fn) return null;
+  try { return fn(); } catch(e) { return null; }
+}
+</script>
+</body>
+</html>
